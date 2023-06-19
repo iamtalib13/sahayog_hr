@@ -1,0 +1,947 @@
+{
+ "actions": [],
+ "autoname": "naming_series:",
+ "creation": "2023-06-03 13:38:14.110952",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "section_employee_details_shared",
+  "shared_yes",
+  "shared_no",
+  "shared",
+  "employee_details_tab",
+  "date",
+  "month",
+  "naming_series",
+  "employee_id",
+  "employee_name",
+  "designation",
+  "column_break_plo5a",
+  "region",
+  "branch",
+  "division",
+  "district",
+  "section_break_9q6yt",
+  "tab_break_nivgq",
+  "survey_period",
+  "ddd",
+  "column_break_nbmam",
+  "column_break_q3pna",
+  "first_check_agree",
+  "first_check_somewhat_agree",
+  "first_check_neutral",
+  "first_check_somewhat_disagree",
+  "first_check_disagree",
+  "column_break_glvrg",
+  "first_feedback",
+  "column_break_qqjgg",
+  "section_break_dkhec",
+  "first_response",
+  "section_break_iigbm",
+  "section_break_ms4zp",
+  "column_break_44m4b",
+  "column_break_harm7",
+  "second_check_agree",
+  "second_check_somewhat_agree",
+  "second_check_neutral",
+  "second_check_somewhat_disagree",
+  "second_check_disagree",
+  "column_break_ogo0r",
+  "second_feedback",
+  "column_break_rt1cz",
+  "section_break_s1jbg",
+  "second_response",
+  "section_break_2fyuf",
+  "section_break_og6ok",
+  "column_break_3vfsq",
+  "column_break_fzb4t",
+  "third_check_agree",
+  "third_check_somewhat_agree",
+  "third_check_neutral",
+  "third_check_somewhat_disagree",
+  "third_check_disagree",
+  "column_break_tq8ec",
+  "third_feedback",
+  "column_break_xhdri",
+  "section_break_ikm2z",
+  "third_response",
+  "section_break_wpjqu",
+  "column_break_gyhw9",
+  "column_break_tuucr",
+  "fourth_check_agree",
+  "fourth_check_somewhat_agree",
+  "fourth_check_neutral",
+  "fourth_check_somewhat_disagree",
+  "fourth_check_disagree",
+  "column_break_9waxo",
+  "fourth_feedback",
+  "column_break_zpzpw",
+  "section_break_ne7tc",
+  "fourth_response",
+  "section_break_uxbgk",
+  "column_break_pso8i",
+  "column_break_n49rr",
+  "fifth_check_agree",
+  "fifth_check_somewhat_agree",
+  "fifth_check_neutral",
+  "fifth_check_somewhat_disagree",
+  "fifth_check_disagree",
+  "column_break_1emyt",
+  "fifth_feedback",
+  "column_break_bj9dw",
+  "section_break_3znsa",
+  "fifth_response",
+  "section_break_jzq1q",
+  "column_break_5zccl",
+  "column_break_ecdmx",
+  "sixth_check_agree",
+  "sixth_check_somewhat_agree",
+  "sixth_check_neutral",
+  "sixth_check_somewhat_disagree",
+  "sixth_check_disagree",
+  "column_break_wyota",
+  "sixth_feedback",
+  "column_break_509iz",
+  "section_break_gmmpr",
+  "sixth_response",
+  "section_break_ewb5j",
+  "column_break_srozu",
+  "column_break_mcnxt",
+  "seventh_check_agree",
+  "seventh_check_somewhat_agree",
+  "seventh_check_neutral",
+  "seventh_check_somewhat_disagree",
+  "seventh_check_disagree",
+  "column_break_ovds3",
+  "seventh_feedback",
+  "column_break_mo5as",
+  "section_break_xc4r2",
+  "seventh_response",
+  "section_break_zfvfc",
+  "column_break_wzvip",
+  "column_break_8ofvd",
+  "eighth_check_agree",
+  "eighth_check_somewhat_agree",
+  "eighth_check_neutral",
+  "eighth_check_somewhat_disagree",
+  "eighth_check_disagree",
+  "column_break_mebit",
+  "eighth_feedback",
+  "column_break_0muyi",
+  "section_break_no1pq",
+  "eighth_response",
+  "section_break_uwnxp",
+  "column_break_ov6dt",
+  "column_break_qbptm",
+  "ninth_check_agree",
+  "ninth_check_somewhat_agree",
+  "ninth_check_neutral",
+  "ninth_check_somewhat_disagree",
+  "ninth_check_disagree",
+  "column_break_4cwa8",
+  "ninth_feedback",
+  "column_break_czmez",
+  "section_break_zt65v",
+  "ninth_response",
+  "generic_comments_section",
+  "generic_comment"
+ ],
+ "fields": [
+  {
+   "fieldname": "employee_id",
+   "fieldtype": "Link",
+   "label": "Employee Id",
+   "options": "Employee",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_id.employee_name",
+   "fieldname": "employee_name",
+   "fieldtype": "Data",
+   "label": "Employee Name",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_id.designation",
+   "fieldname": "designation",
+   "fieldtype": "Data",
+   "label": "Designation",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_id.region",
+   "fieldname": "region",
+   "fieldtype": "Select",
+   "label": "Region",
+   "options": "\nRegion 1\nRegion 2\nRegion 3\nRegion 4",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_id.branch",
+   "fieldname": "branch",
+   "fieldtype": "Data",
+   "label": "Branch",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_id.division",
+   "fieldname": "division",
+   "fieldtype": "Data",
+   "label": "Division",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "employee_id.district",
+   "fieldname": "district",
+   "fieldtype": "Data",
+   "label": "District",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_plo5a",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "tab_break_nivgq",
+   "fieldtype": "HTML",
+   "options": "<h2 style=\"text-align: center; background-color: #e3e3e3; height: 50px; padding: 10px; box-shadow: 2px 2px 4px #888888;\">Survey Form</h2>\n"
+  },
+  {
+   "collapsible": 1,
+   "depends_on": "eval:doc.shared==\"Yes\"",
+   "fieldname": "employee_details_tab",
+   "fieldtype": "Section Break",
+   "label": "Employee Details"
+  },
+  {
+   "fieldname": "first_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "in_list_view": 1,
+   "label": "1. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "section_break_iigbm",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "second_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "2. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "section_break_2fyuf",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "third_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "3. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "fourth_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "4. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "fifth_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "5. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "sixth_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "6. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "seventh_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "7. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "ninth_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "9. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "fieldname": "section_break_9q6yt",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "first_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "default": "0",
+   "fieldname": "first_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "default": "0",
+   "fieldname": "first_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "default": "0",
+   "fieldname": "first_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "default": "0",
+   "fieldname": "first_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "fieldname": "section_break_dkhec",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "ddd",
+   "fieldtype": "Section Break",
+   "label": "<h4>1. Do you believe the organization has your best interests in mind when making business decisions ?</h4>"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_ms4zp",
+   "fieldtype": "Section Break",
+   "label": "<h4>2. Are you satisfied with the way we've managed both our business and people during this time?</h4>"
+  },
+  {
+   "fieldname": "section_break_s1jbg",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "second_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "column_break_44m4b",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "second_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "column_break_harm7",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "second_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_rt1cz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "second_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_ogo0r",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "second_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_og6ok",
+   "fieldtype": "Section Break",
+   "label": "<h4>3. Do you believe we've maintained adequate communication with all employees?</h4>"
+  },
+  {
+   "fieldname": "section_break_ikm2z",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "third_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "column_break_3vfsq",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "third_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "column_break_fzb4t",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "third_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_xhdri",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "third_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_tq8ec",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "third_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_wpjqu",
+   "fieldtype": "Section Break",
+   "label": "<h4>4. Have you continued to collaborate with your team during this time?</h4>"
+  },
+  {
+   "fieldname": "section_break_ne7tc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fourth_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "column_break_gyhw9",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fourth_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "column_break_tuucr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fourth_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_zpzpw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fourth_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_9waxo",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fourth_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_uxbgk",
+   "fieldtype": "Section Break",
+   "label": "<h4>5. Does your team inspire you to do your best work?</h4>"
+  },
+  {
+   "default": "0",
+   "fieldname": "fifth_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "column_break_pso8i",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fifth_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "column_break_n49rr",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fifth_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_bj9dw",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fifth_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_1emyt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "fifth_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "fieldname": "section_break_3znsa",
+   "fieldtype": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_jzq1q",
+   "fieldtype": "Section Break",
+   "label": "<h4>6. Does your team help you successfully complete your work?</h4>"
+  },
+  {
+   "default": "0",
+   "fieldname": "sixth_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "section_break_gmmpr",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "sixth_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "column_break_5zccl",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ecdmx",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "sixth_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_wyota",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "sixth_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_509iz",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "sixth_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_ewb5j",
+   "fieldtype": "Section Break",
+   "label": "<h4>7. Do you believe you have the appropriate amount of information to make correct decisions about your work?</h4>"
+  },
+  {
+   "default": "0",
+   "fieldname": "seventh_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "section_break_xc4r2",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "seventh_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "default": "0",
+   "fieldname": "seventh_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_srozu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mcnxt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_mo5as",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "seventh_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_ovds3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "seventh_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_zfvfc",
+   "fieldtype": "Section Break",
+   "label": "<h4>8. When something unexpected comes up in your work, do you usually know whom to ask for help?</h4>"
+  },
+  {
+   "default": "0",
+   "fieldname": "eighth_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "fieldname": "column_break_wzvip",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "eighth_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "column_break_8ofvd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "eighth_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_0muyi",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "eighth_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_mebit",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "eighth_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "fieldname": "section_break_no1pq",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "eighth_response",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "8. Select Answer",
+   "options": "\nAgree\nSomewhat agree\nNeutral\nSomewhat disagree\nDisagree"
+  },
+  {
+   "collapsible": 1,
+   "fieldname": "section_break_uwnxp",
+   "fieldtype": "Section Break",
+   "label": "<h4>9. Do you have a good understanding of our informal structures and processes?</h4>"
+  },
+  {
+   "default": "0",
+   "fieldname": "ninth_check_agree",
+   "fieldtype": "Check",
+   "label": "Agree"
+  },
+  {
+   "default": "0",
+   "fieldname": "ninth_check_somewhat_agree",
+   "fieldtype": "Check",
+   "label": "Somewhat Agree"
+  },
+  {
+   "fieldname": "section_break_zt65v",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_qbptm",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_ov6dt",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "ninth_check_neutral",
+   "fieldtype": "Check",
+   "label": "Neutral"
+  },
+  {
+   "fieldname": "column_break_czmez",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "ninth_check_somewhat_disagree",
+   "fieldtype": "Check",
+   "label": "Somewhat Disagree"
+  },
+  {
+   "fieldname": "column_break_4cwa8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "0",
+   "fieldname": "ninth_check_disagree",
+   "fieldtype": "Check",
+   "label": "Disagree"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "label": "Survey id",
+   "options": "SSRV/.DD..MM..YY./.####."
+  },
+  {
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
+   "fieldname": "survey_period",
+   "fieldtype": "Select",
+   "label": "Survey Period",
+   "options": "January\nFebruary\nMarch\nApril\nMay\nJune\nJuly\nAugust\nSeptember\nOctober\nNovember\nDecember"
+  },
+  {
+   "collapsible": 1,
+   "default": "0",
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
+   "fieldname": "section_employee_details_shared",
+   "fieldtype": "Section Break",
+   "label": "employee details shared"
+  },
+  {
+   "default": "0",
+   "fieldname": "shared_yes",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "Yes"
+  },
+  {
+   "default": "0",
+   "fieldname": "shared_no",
+   "fieldtype": "Check",
+   "hidden": 1,
+   "label": "No"
+  },
+  {
+   "fieldname": "shared",
+   "fieldtype": "Select",
+   "label": "shared",
+   "options": "\nNo\nYes"
+  },
+  {
+   "default": "Today",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "label": "Date"
+  },
+  {
+   "fieldname": "month",
+   "fieldtype": "Data",
+   "label": "Month"
+  },
+  {
+   "fieldname": "first_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "second_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "column_break_q3pna",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_nbmam",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_qqjgg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_glvrg",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "third_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "fourth_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "fifth_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "sixth_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "seventh_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "eighth_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "ninth_feedback",
+   "fieldtype": "Small Text",
+   "label": "Feedback/Remark"
+  },
+  {
+   "fieldname": "generic_comments_section",
+   "fieldtype": "Section Break",
+   "label": "Generic Comments"
+  },
+  {
+   "fieldname": "generic_comment",
+   "fieldtype": "Small Text"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2023-06-07 11:33:41.561872",
+ "modified_by": "Administrator",
+ "module": "sahayog_survey",
+ "name": "Sahayog Survey",
+ "naming_rule": "By \"Naming Series\" field",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "select": 1,
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "track_seen": 1,
+ "track_views": 1
+}

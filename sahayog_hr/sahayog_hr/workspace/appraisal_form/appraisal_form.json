@@ -1,0 +1,42 @@
+{
+ "charts": [],
+ "content": "[{\"type\":\"header\",\"data\":{\"text\":\"<span class=\\\"h4\\\">Performance Apprasial</span>\",\"col\":12}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"NEW\",\"col\":3}},{\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"LIST\",\"col\":3}}]",
+ "creation": "2023-02-08 13:40:59.285811",
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "chart",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Appraisal Form",
+ "links": [],
+ "modified": "2023-05-08 16:58:18.418713",
+ "modified_by": "Administrator",
+ "module": "Sahayog Hr",
+ "name": "Appraisal Form",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 7.0,
+ "shortcuts": [
+  {
+   "color": "Green",
+   "doc_view": "New",
+   "label": "NEW",
+   "link_to": "Performance Appraisal",
+   "type": "DocType"
+  },
+  {
+   "color": "Yellow",
+   "doc_view": "List",
+   "label": "LIST",
+   "link_to": "Performance Appraisal",
+   "type": "DocType"
+  }
+ ],
+ "title": "Appraisal Form"
+}
