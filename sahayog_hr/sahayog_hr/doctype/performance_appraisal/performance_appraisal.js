@@ -214,7 +214,7 @@ frappe.ui.form.on("Performance Appraisal", {
     } //*</SKIP Save doc after giving Section A & Section B Rating>
 
     //*<Employee Save doc after giving Section A & Section B Rating>
-    else if (session_emp_user === frm.doc.owner) {
+    else if (session_emp_user === frm.doc.user_id) {
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         let total_weight = 0;
         for (let row of frm.doc.emp_kra_table) {
@@ -237,7 +237,7 @@ frappe.ui.form.on("Performance Appraisal", {
   calculate_appraiser_rating: function (frm) {
     let session_emp_user = frappe.session.user;
     // frappe.msgprint("logged in id : " + session_emp_user);
-    if (session_emp_user === frm.doc.owner) {
+    if (session_emp_user === frm.doc.user_id) {
       frappe.throw("You dont have Enough Permission");
     } else if (session_emp_user === frm.doc.appraiser_user_id) {
       //frappe.msgprint("Appraiser Matched");
@@ -323,20 +323,155 @@ frappe.ui.form.on("Performance Appraisal", {
   },
 
   //*-----------------------------------------------------------------------------------------------*//
+  employeeRules: function (frm) {
+    console.log("Employee Rules");
+  },
 
+  employeeDetailsCss: function (frm) {
+    var doc = frm.doc;
+
+    // Create a custom HTML string
+    var html = "";
+    if (doc.employee_id) {
+      html +=
+        "<div><strong>Employee ID:</strong> " + doc.employee_id + "</div>";
+    }
+    if (doc.full_name) {
+      html +=
+        "<div><strong>Employee Name:</strong> " + doc.full_name + "</div>";
+    }
+    if (doc.designation) {
+      html +=
+        "<div><strong>Designation:</strong> " + doc.designation + "</div>";
+    }
+    if (doc.department) {
+      html += "<div><strong>Department:</strong> " + doc.department + "</div>";
+    }
+    if (doc.branch) {
+      html += "<div><strong>Branch:</strong> " + doc.branch + "</div>";
+    }
+    if (doc.date_of_joining) {
+      var dateOfJoining = new Date(doc.date_of_joining);
+
+      var currentDate = new Date();
+      var yearsExperience =
+        currentDate.getFullYear() - dateOfJoining.getFullYear();
+      var monthsExperience = currentDate.getMonth() - dateOfJoining.getMonth();
+
+      // Adjust for negative months
+      if (monthsExperience < 0) {
+        yearsExperience--;
+        monthsExperience += 12;
+      }
+
+      var formattedDate =
+        dateOfJoining.getDate() +
+        "-" +
+        (dateOfJoining.getMonth() + 1) +
+        "-" +
+        dateOfJoining.getFullYear();
+
+      var experienceText = yearsExperience + " yr";
+      if (monthsExperience > 0) {
+        experienceText += " " + monthsExperience + " mos";
+      }
+
+      html +=
+        "<div><strong>Date of Joining:</strong> " +
+        formattedDate +
+        "</div>" +
+        "<div><strong>Experience:</strong> " +
+        experienceText +
+        "</div>";
+    }
+
+    // Set the HTML in set_intro
+    frm.set_intro(html, "green");
+  },
+  AppraiserDetailsCss: function (frm) {
+    frm.set_intro("Please Give Your Ratings to the Employee ", "green");
+  },
   refresh: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (frm.doc.employee_status == "Satisfied") {
-      frm.set_value("final_ranking", frm.doc.end_app_rating);
-    } else if (frm.doc.skip_confirmation_status == "SKIP Rating Not-Required") {
-      frm.set_value("final_ranking", frm.doc.end_app_rating);
-    } else if (frm.doc.skip_confirmation_status == "SKIP Rating Required") {
-      frm.set_value("final_ranking", frm.doc.skip_overall_rating);
-    }
-    //frappe.msgprint("logged in id : " + session_emp_user);
 
-    if (session_emp_user === frm.doc.owner) {
-      //frappe.msgprint("Employee Matched");
+    // if (frm.doc.employee_status == "Satisfied") {
+    //   frm.set_value("final_ranking", frm.doc.end_app_rating);
+    // } else if (frm.doc.skip_confirmation_status == "SKIP Rating Not-Required") {
+    //   frm.set_value("final_ranking", frm.doc.end_app_rating);
+    // } else if (frm.doc.skip_confirmation_status == "SKIP Rating Required") {
+    //   frm.set_value("final_ranking", frm.doc.skip_overall_rating);
+    // }
+
+    console.log("logged in id : " + session_emp_user);
+    //console.log("user id : " + frm.doc.user_id);
+    //console.log("Employee ID : " + frm.doc.employee_id);
+    if (session_emp_user === frm.doc.user_id) {
+      console.log("Employee Matched");
+      //Employee - when form is new
+      if (frm.is_new()) {
+        let user = frappe.session.user;
+        let eid = user.match(/\d+/)[0];
+        frm.set_value("employee_id", eid);
+        let empid = frm.doc.employee_id;
+
+        frappe.db.get_value("Employee", empid, "user_id").then((r) => {
+          let empUserID = r.message.user_id;
+          console.log("Variable Value : ", empUserID);
+          if (empUserID == user) {
+            console.log("Employee Matched from Server when form-new");
+            frm.trigger("employeeRules");
+
+            frm.set_df_property("employee_id", "hidden", 1);
+          }
+        });
+        frappe.db
+          .get_value("Employee", empid, "reporting_employee_user_id")
+          .then((r) => {
+            let reportingEmpUserID = r.message.reporting_employee_user_id;
+            //console.log("Reporting Employee ID : ", reportingEmpUserID);
+            frm.set_value("appraiser_user_id", reportingEmpUserID);
+            //console.log("Reporting Employee ID : ", frm.doc.appraiser_user_id);
+          });
+
+        frappe.call({
+          method:
+            "sahayog_hr.sahayog_hr.doctype.performance_appraisal.employee_api.get_emp_details",
+          args: {
+            emp_id: empid,
+          },
+          callback: function (r) {
+            // Check if the message array contains at least one object
+            if (r.message.length > 0) {
+              // Get the employee department field from the first object in the array
+              //var department = r.message[0].department;
+
+              let ap_user = r.message[0].reporting_employee_user_id;
+
+              console.log(
+                "Appraiser :",
+                r.message[0].reporting_employee_user_id
+              );
+              frm.set_value("appraiser_user_id", ap_user);
+              console.log(frm.doc.appraiser_user_id);
+            }
+          },
+        });
+      }
+
+      //Employee - when form is not new
+      if (!frm.is_new()) {
+        let user = frappe.session.user;
+        let empid = frm.doc.user_id;
+
+        if (empid == user) {
+          console.log("Employee Matched from Server when form not-new ");
+          frm.trigger("employeeRules");
+
+          frm.set_df_property("employee_id", "hidden", 1);
+        }
+      }
+
+      frm.trigger("hideFromEmployee");
       //*<Appraiser name>
       // Get the full name from frm.doc.ap_name
       var fullName = frm.doc.ap_name;
@@ -398,21 +533,26 @@ frappe.ui.form.on("Performance Appraisal", {
       var appraiser_rating = frm.doc.end_app_rating;
       var skip_ranking = frm.doc.skip_overall_rating;
 
-      if (typeof employee_ranking !== "undefined") {
-        frm.set_intro("Your Ranking: " + employee_ranking, "green");
+      if (frm.doc.status == "Draft") {
+        frm.set_intro(
+          "Please Submit to your Appraiser- " +
+            "<b><span style='color: black; '>" +
+            frm.doc.appraisers_name +
+            "",
+          "green"
+        );
       }
       if (typeof appraiser_rating !== "undefined") {
-        frm.set_intro("Appraiser Ranking: " + appraiser_rating, "green");
+        // frm.set_intro("Appraiser Ranking: " + appraiser_rating, "green");
       }
       if (typeof skip_ranking !== "undefined") {
-        frm.set_intro("Skip Ranking: " + skip_ranking, "green");
+        // frm.set_intro("Skip Ranking: " + skip_ranking, "green");
       }
       //*</display Employee rating and appraiser rating>
 
       if (!frm.doc.__islocal && frm.doc.appraiser_overall_rating == null) {
-        frm.add_custom_button(
-          __("Send to Appraiser"),
-          function () {
+        if (frm.doc.status == "Draft") {
+          frm.add_custom_button(__("Send to Appraiser"), function () {
             if (frm.doc.employee_rating_fetched == "Fetched") {
               frappe.msgprint(
                 "Your Rating has been Already Sent to <b>" +
@@ -432,6 +572,7 @@ frappe.ui.form.on("Performance Appraisal", {
                   // action to perform if Yes is selected
                   frappe.show_alert("successfully sent to your Appraiser");
                   frm.trigger("send_to_appraiser");
+
                   frm.save();
                 },
                 () => {
@@ -441,9 +582,9 @@ frappe.ui.form.on("Performance Appraisal", {
                 }
               );
             }
-          },
-          __("Send")
-        );
+          });
+        }
+
         //*</Activate (Sent to Appraiser) button when employee want to sent their rating to appraiser>
       } else if (!frm.doc.__islocal && frm.doc.display == "no") {
         //* <Activate skip level button when appraiser give their rating to employee>
@@ -492,6 +633,9 @@ frappe.ui.form.on("Performance Appraisal", {
         );
       } //* </Activate skip level button when appraiser give their rating to employee>
     } else if (session_emp_user === frm.doc.appraiser_user_id) {
+      let ap = frm.doc.appraiser_user_id;
+
+      console.log("Appraiser Matched : ", ap);
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         frm.set_intro("Employee not submitted their Data, ", "red");
         frm.set_intro("You have to wait for their submission of form. ", "red");
@@ -501,7 +645,8 @@ frappe.ui.form.on("Performance Appraisal", {
         !frm.doc.end_app_rating &&
         frm.doc.employee_rating_fetched == "Fetched"
       ) {
-        frm.set_intro("Please Give Your Ratings to the Employee ", "green");
+        frm.trigger("employeeDetailsCss");
+        frm.trigger("AppraiserDetailsCss");
       }
 
       if (frm.doc.employee_rating_fetched == "Fetched") {
@@ -604,6 +749,8 @@ frappe.ui.form.on("Performance Appraisal", {
       frm.fields_dict["skip_kra_table"].grid.wrapper
         .find(".grid-remove-rows")
         .hide();
+    } else {
+      frm.trigger("employeeDetailsCss");
     }
 
     //*<Read only section b child table for employee>
@@ -632,29 +779,21 @@ frappe.ui.form.on("Performance Appraisal", {
   },
   //*-----------------------------------------------------------------------------------------------*//
 
+  hideFromEmployee: function (frm) {
+    console.log("Hid");
+    frm.set_df_property("employee_rating_tab", "hidden", 1);
+  },
+
   //*-----------------------------------------------------------------------------------------------*//
   //* <Calculate Employee Section A using button>
   calculate_section_a: function (frm) {
     var kra_pattern = /^[a-zA-Z0-9]*$/;
 
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.owner) {
+    if (session_emp_user === frm.doc.user_id) {
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         for (let row of frm.doc.emp_kra_table) {
-          if (!row.kras.match(kra_pattern)) {
-            frappe.msgprint({
-              title: __("Typing Mistake"),
-              indicator: "red",
-              message: __(
-                "KRA should only contain letters a to z and numbers 0 - 9"
-              ),
-            });
-            return false;
-          } else if (
-            row.kras === "" ||
-            row.weights === "" ||
-            row.rating === ""
-          ) {
+          if (row.kras === "" || row.weights === "" || row.rating === "") {
             frappe.msgprint("Please fill KRA Properly !!");
             return;
           } else {
@@ -713,18 +852,17 @@ frappe.ui.form.on("Performance Appraisal", {
     }
 
     //*<fetching employee section b rating into appraiser section b rating>
-
     // frm.set_value("sec_b_tech", frm.doc.technical_emp_rating);
     // frm.set_value("sec_b_tech_comment", frm.doc.technical_emp_comments);
-
     //*</fetching employee section b rating into appraiser section b rating>
-  }, //*</Calculate Section A using button>
+  },
+  //*</Calculate Section A using button>
 
   //*-----------------------------------------------------------------------------------------------*//
   //* <Calculate Section B using button>
   calculate_section_b: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.owner) {
+    if (session_emp_user === frm.doc.user_id) {
       frm.clear_table("employee_section_b_table");
       if (
         frm.doc.appraisal_category == 1 ||
@@ -947,7 +1085,7 @@ frappe.ui.form.on("Performance Appraisal", {
     let session_emp_user = frappe.session.user;
 
     //frappe.msgprint("logged in id : " + session_emp_user);
-    if (session_emp_user === frm.doc.owner) {
+    if (session_emp_user === frm.doc.user_id) {
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         console.log("Calculating total ranking");
         let sectionA = frm.doc.overall_rating;
@@ -972,9 +1110,9 @@ frappe.ui.form.on("Performance Appraisal", {
       frm.trigger("calculate_appraiser_rating");
     } else if (session_emp_user === frm.doc.skip_user) {
       frm.trigger("calculate_skip_rating");
-    } else if (session_emp_user === frm.doc.owner) {
+    } else if (session_emp_user === frm.doc.user_id) {
       let session_emp_user = frappe.session.user;
-      if (session_emp_user === frm.doc.owner) {
+      if (session_emp_user === frm.doc.user_id) {
         //*<Calculation logic of Employee Section A>
         const outstanding = 1;
         const exceeds_expectations = 2;
@@ -1032,6 +1170,8 @@ frappe.ui.form.on("Performance Appraisal", {
         } else if (frm.doc.employee_rating_fetched == "Fetched") {
           frappe.msgprint("Already fetched");
         }
+
+        frm.set_value("status", "Submitted");
       } else if (session_emp_user === frm.doc.appraiser_user_id) {
         frappe.throw("You don't have Enough Permission");
       } else if (session_emp_user === frm.doc.skip_user) {
@@ -1119,7 +1259,7 @@ frappe.ui.form.on("Performance Appraisal", {
   //*<Button to Calculate Section B from Appraiser tab>
   btn_calculate_app_section_b: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.owner) {
+    if (session_emp_user === frm.doc.user_id) {
       frappe.throw("You don't have Enough Permission");
     } else if (session_emp_user === frm.doc.appraiser_user_id) {
       let all_ratings_given = true;
@@ -1194,33 +1334,29 @@ frappe.ui.form.on("Performance Appraisal", {
   },
   //*-----------------------------------------------------------------------------------------------*//
   onload_post_render: function (frm) {
-    frm.fields_dict.emp_kra_table.$wrapper.on(
-      "input",
-      ".input-with-feedback[data-fieldname='kras']",
-      function (evt) {
-        // Get the value of the input field
-        var input_value = evt.target.value;
-
-        // Define a regular expression that matches special characters
-        var special_char_regex = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-
-        // Check if the input value contains a special character
-        if (special_char_regex.test(input_value)) {
-          // Remove the special character from the input field
-          var cleaned_input_value = input_value.replace(special_char_regex, "");
-
-          // Set the cleaned value back into the input field
-          evt.target.value = cleaned_input_value;
-
-          // Display an alert message
-          frappe.msgprint({
-            title: __("Alert"),
-            indicator: "red",
-            message: __("Special Characters are not Allowed."),
-          });
-        }
-      }
-    );
+    // frm.fields_dict.emp_kra_table.$wrapper.on(
+    //   "input",
+    //   ".input-with-feedback[data-fieldname='kras']",
+    //   function (evt) {
+    //     // Get the value of the input field
+    //     var input_value = evt.target.value;
+    //     // Define a regular expression that matches special characters
+    //     var special_char_regex = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    //     // Check if the input value contains a special character
+    //     if (special_char_regex.test(input_value)) {
+    //       // Remove the special character from the input field
+    //       var cleaned_input_value = input_value.replace(special_char_regex, "");
+    //       // Set the cleaned value back into the input field
+    //       evt.target.value = cleaned_input_value;
+    //       // Display an alert message
+    //       frappe.msgprint({
+    //         title: __("Alert"),
+    //         indicator: "red",
+    //         message: __("Special Characters are not Allowed."),
+    //       });
+    //     }
+    //   }
+    // );
   },
   //*-----------------------------------------------------------------------------------------------*//
   //*<Button to Calculate Overall Rating of Section A & B from Appraiser tab>
@@ -1367,7 +1503,7 @@ frappe.ui.form.on("Performance Appraisal", {
 
   calculate_skip_rating: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.owner) {
+    if (session_emp_user === frm.doc.user_id) {
       frappe.throw("You don't have Enough Permission");
     } else if (session_emp_user === frm.doc.appraiser_user_id) {
       frappe.throw("You don't have Enough Permission");

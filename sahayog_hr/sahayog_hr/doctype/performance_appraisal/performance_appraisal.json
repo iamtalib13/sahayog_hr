@@ -8,35 +8,40 @@
  "engine": "InnoDB",
  "field_order": [
   "employee_basic_details_tab",
-  "owner",
+  "status",
   "employee_id",
+  "user_id",
+  "date_of_joining",
+  "column_break_vwkub",
   "full_name",
   "designation",
-  "date_of_joining",
-  "column_break_5",
+  "column_break_ajqh0",
   "region",
   "division",
+  "column_break_8bqlc",
   "department",
-  "column_break_10",
+  "branch",
   "appraisal_category",
   "appraisers_name",
-  "employee_rating_tab",
+  "employee_tab",
+  "section_break_period",
   "appraisal_period",
-  "column_break_16",
+  "column_break_5",
   "date_of_appraisal",
-  "section_break_18",
-  "kra_1",
+  "section_break_xgllc",
+  "section_a_html",
+  "employee_section_a",
   "emp_kra_table",
-  "section_break_21",
+  "employee_section_a_btn",
   "calculate_section_a",
-  "section_break_23",
   "overall_rating",
+  "employee_section_a_result",
   "total_weightage",
   "dfsggdg",
   "sum_of_rating",
   "section_break_22",
-  "section_b_1",
-  "technicalfunctionalknowledge",
+  "section_2_html",
+  "technical_section",
   "technical_emp_rating",
   "column_break_20",
   "technical_emp_comments",
@@ -97,27 +102,27 @@
   "communication_emp_rating",
   "column_break_78",
   "communication_emp_comment",
-  "section_break_27",
+  "section_b_btn",
   "calculate_section_b",
+  "overall_section_b_rating",
   "fhhdfhd",
   "sec_b_sum_rating",
   "gjgjfhfd",
   "no_of_attributes",
-  "section_break_97",
-  "overall_section_b_rating",
-  "section_break_91",
+  "section",
   "cal_emp_tot_weight_ranking",
   "emp_tot_weight_ranking",
-  "dgdsgdg",
-  "personal_dev_plan_section",
-  "behavioral_skills_section",
+  "fkjbfjgb",
+  "emp_sec_c_html",
+  "section_c",
+  "section_c_a",
   "sec_c_skill_1",
   "emp_sec_c_other",
   "column_break_97",
   "sec_c_skill_2",
-  "column_break_99",
+  "column_break_99r",
   "sec_c_skill_3",
-  "appra",
+  "appraiser_tab",
   "appraiser_details_section",
   "appraiser_name",
   "column_break_93",
@@ -137,7 +142,7 @@
   "section_break_96",
   "section_b_2",
   "employee_section_b_table",
-  "section_break_116",
+  "app_section_b_btn",
   "app_sec_b_emp_rating",
   "column_break_118",
   "btn_calculate_app_section_b",
@@ -205,6 +210,7 @@
   {
    "fieldname": "employee_basic_details_tab",
    "fieldtype": "Tab Break",
+   "hidden": 1,
    "label": "Employee Basic Details"
   },
   {
@@ -221,11 +227,6 @@
    "fieldtype": "Data",
    "label": "Full Name",
    "read_only": 1
-  },
-  {
-   "fieldname": "employee_rating_tab",
-   "fieldtype": "Tab Break",
-   "label": "Employee"
   },
   {
    "fetch_from": "employee_id.designation",
@@ -255,7 +256,7 @@
   {
    "fetch_from": "employee_id.date_of_joining",
    "fieldname": "date_of_joining",
-   "fieldtype": "Data",
+   "fieldtype": "Date",
    "label": "Date of Joining",
    "read_only": 1
   },
@@ -267,15 +268,12 @@
    "read_only": 1
   },
   {
-   "fieldname": "column_break_10",
-   "fieldtype": "Column Break"
-  },
-  {
+   "default": "Mid-Term Appraisal",
    "fieldname": "appraisal_period",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Appraisal Period",
-   "options": "\nMid-Term Appraisal\nFinal-Term Appraisal",
+   "options": "Mid-Term Appraisal",
    "reqd": 1,
    "set_only_once": 1
   },
@@ -294,20 +292,10 @@
    "read_only": 1
   },
   {
-   "fieldname": "appra",
-   "fieldtype": "Tab Break",
-   "label": "Appraiser"
-  },
-  {
+   "depends_on": "eval:doc.skip_user==frappe.session.user || frappe.user.has_role('System Manager')",
    "fieldname": "skip_tab",
    "fieldtype": "Tab Break",
    "label": " SKIP Level"
-  },
-  {
-   "description": "Please ensure that the weights total to 50 ",
-   "fieldname": "kra_1",
-   "fieldtype": "Heading",
-   "label": "Section A: Key Result Area's"
   },
   {
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
@@ -317,35 +305,19 @@
    "label": "Section A: Key Result Area's"
   },
   {
-   "fieldname": "section_b_1",
-   "fieldtype": "Heading",
-   "label": "Section B: Personal Effectiveness Index / Leadership Competencies"
-  },
-  {
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "section_b_2",
    "fieldtype": "Section Break",
    "label": "Section B: Personal Effectiveness Index / Leadership Competencies"
   },
   {
-   "collapsible": 1,
-   "fieldname": "personal_dev_plan_section",
-   "fieldtype": "Heading",
-   "label": "Section C : The Personal Developmental Plan"
-  },
-  {
+   "description": "(Please ensure that the weights total to 50 in the weights column)",
    "fieldname": "emp_kra_table",
    "fieldtype": "Table",
    "label": "Key Result Area's",
    "options": "Employee KRA",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "reqd": 1
-  },
-  {
-   "description": "Exhibits comprehensive understanding of the core set of Technical and functional aspects of particular function",
-   "fieldname": "technicalfunctionalknowledge",
-   "fieldtype": "Section Break",
-   "label": "Technical & Functional knowledge"
   },
   {
    "fieldname": "technical_emp_rating",
@@ -389,10 +361,6 @@
    "fieldtype": "Small Text",
    "label": "Employee Comments",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
-  },
-  {
-   "fieldname": "section_break_27",
-   "fieldtype": "Section Break"
   },
   {
    "depends_on": "eval:doc.appraisal_category == \"1\"",
@@ -764,7 +732,7 @@
   {
    "fieldname": "overall_rating",
    "fieldtype": "Data",
-   "label": "Employee Section A Rating",
+   "label": "Section A : Result",
    "read_only": 1
   },
   {
@@ -801,21 +769,6 @@
   {
    "fieldname": "column_break_95",
    "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "owner",
-   "fieldtype": "Link",
-   "hidden": 1,
-   "label": "User Email",
-   "options": "User"
-  },
-  {
-   "fieldname": "column_break_16",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_18",
-   "fieldtype": "Section Break"
   },
   {
    "fetch_from": "employee_id.reports_to",
@@ -926,6 +879,7 @@
    "fieldtype": "Column Break"
   },
   {
+   "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "calculate_section_b",
    "fieldtype": "Button",
    "label": "Calculate Section B"
@@ -933,12 +887,8 @@
   {
    "fieldname": "overall_section_b_rating",
    "fieldtype": "Data",
-   "label": "Employee Section B Rating",
+   "label": "Section B : Result",
    "read_only": 1
-  },
-  {
-   "fieldname": "section_break_91",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "employee_section_b_table",
@@ -948,10 +898,7 @@
    "options": "Employee Section B Table"
   },
   {
-   "fieldname": "section_break_21",
-   "fieldtype": "Section Break"
-  },
-  {
+   "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "calculate_section_a",
    "fieldtype": "Button",
    "label": "Calculate Section A"
@@ -974,7 +921,6 @@
   {
    "fieldname": "employee_status",
    "fieldtype": "Select",
-   "in_standard_filter": 1,
    "label": "Employee Status",
    "options": "\nSatisfied\nNot-Satisfied",
    "read_only": 1,
@@ -1015,10 +961,6 @@
    "options": "\nno\nyes"
   },
   {
-   "fieldname": "section_break_116",
-   "fieldtype": "Section Break"
-  },
-  {
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "btn_calculate_app_section_b",
    "fieldtype": "Button",
@@ -1047,16 +989,7 @@
    "read_only": 1
   },
   {
-   "fieldname": "behavioral_skills_section",
-   "fieldtype": "Section Break",
-   "label": "Behavioral Skills"
-  },
-  {
    "fieldname": "column_break_97",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "column_break_99",
    "fieldtype": "Column Break"
   },
   {
@@ -1129,10 +1062,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "section_break_23",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "fhhdfhd",
    "fieldtype": "Section Break"
   },
@@ -1153,23 +1082,16 @@
    "label": "Sum of Rating"
   },
   {
-   "fieldname": "section_break_97",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "emp_tot_weight_ranking",
    "fieldtype": "Data",
    "label": "Total Weights Ranking",
    "read_only": 1
   },
   {
+   "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "cal_emp_tot_weight_ranking",
    "fieldtype": "Button",
    "label": "Calculate Total Weights Ranking"
-  },
-  {
-   "fieldname": "dgdsgdg",
-   "fieldtype": "Section Break"
   },
   {
    "fieldname": "column_break_139",
@@ -1336,11 +1258,127 @@
    "label": "SKIP Report ",
    "mandatory_depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
    "read_only_depends_on": "eval:doc.skip_sec_calculated==\"yes\""
+  },
+  {
+   "fetch_from": "employee_id.user_id",
+   "fieldname": "user_id",
+   "fieldtype": "Data",
+   "label": "User ID",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.user_id==frappe.session.user || frappe.user.has_role('System Manager')",
+   "fieldname": "employee_tab",
+   "fieldtype": "Tab Break",
+   "label": "KRA"
+  },
+  {
+   "fieldname": "appraiser_tab",
+   "fieldtype": "Tab Break",
+   "label": "Appraiser"
+  },
+  {
+   "fieldname": "employee_section_a",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fetch_from": "employee_id.branch",
+   "fieldname": "branch",
+   "fieldtype": "Data",
+   "label": "Branch",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_ajqh0",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_vwkub",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_8bqlc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_2_html",
+   "fieldtype": "HTML",
+   "options": "<div>\n  <h3 style=\"color: #000; position: relative; padding-left: 20px;\">\n    <span style=\"position: absolute; left: 0; top: 0; color: red;\">*</span>\n    Section B: Personal Effectiveness Index / Leadership Competencies\n  </h3>\n</div>\n"
+  },
+  {
+   "fieldname": "emp_sec_c_html",
+   "fieldtype": "HTML",
+   "options": "<div>\n  <h3 style=\"color: #000;\"> Section C : The Personal Developmental Plan <span style=\"color: red;\">(Optional)</span></h3>\n</div>\n"
+  },
+  {
+   "fieldname": "section_break_period",
+   "fieldtype": "Section Break"
+  },
+  {
+   "description": "Exhibits comprehensive understanding of the core set of Technical and functional aspects of particular function",
+   "fieldname": "technical_section",
+   "fieldtype": "Section Break",
+   "label": "Technical & Functional knowledge"
+  },
+  {
+   "fieldname": "employee_section_a_btn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "employee_section_a_result",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_a_html",
+   "fieldtype": "HTML",
+   "options": "<div>\n  <h3 style=\"color: #000; position: relative; padding-left: 20px;\">\n    <span style=\"position: absolute; left: 0; top: 0; color: red;\">*</span>\n    Section A: Key Result Areas\n  </h3>\n</div>\n"
+  },
+  {
+   "fieldname": "section_break_xgllc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_c",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section_b_btn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "app_section_b_btn",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_99r",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_c_a",
+   "fieldtype": "Section Break",
+   "label": "Behavioral Skills"
+  },
+  {
+   "fieldname": "fkjbfjgb",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "section",
+   "fieldtype": "Section Break",
+   "label": "Ranking"
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "in_standard_filter": 1,
+   "label": "Status",
+   "options": "Draft\nSubmitted"
   }
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-03-11 11:27:36.298143",
+ "modified": "2023-11-03 16:01:58.243061",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",
@@ -1376,6 +1414,15 @@
  ],
  "sort_field": "modified",
  "sort_order": "DESC",
- "states": [],
- "track_changes": 1
+ "states": [
+  {
+   "color": "Red",
+   "title": "Draft"
+  },
+  {
+   "color": "Green",
+   "title": "Submitted"
+  }
+ ],
+ "track_seen": 1
 }

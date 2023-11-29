@@ -31,11 +31,11 @@
    "reqd": 1
   },
   {
-   "columns": 1,
+   "columns": 2,
    "fieldname": "rating",
    "fieldtype": "Select",
    "in_list_view": 1,
-   "label": "Rating",
+   "label": "Rating (Self)",
    "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
    "reqd": 1
   },
@@ -44,13 +44,13 @@
    "fieldname": "comm",
    "fieldtype": "Text",
    "in_list_view": 1,
-   "label": "Comments"
+   "label": "Appraisee Comments"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-04 10:32:36.793524",
+ "modified": "2023-10-30 16:54:42.107634",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Employee KRA",

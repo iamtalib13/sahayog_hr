@@ -175,7 +175,7 @@
    "fieldname": "region",
    "fieldtype": "Select",
    "label": "Region",
-   "options": "\nRegion 1\nRegion 2\nRegion 3\nRegion 4",
+   "options": "\nRegion-1\nRegion-2\nRegion-3\nRegion-4",
    "read_only": 1
   },
   {
@@ -904,7 +904,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-06-07 11:33:41.561872",
+ "modified": "2023-10-27 17:47:36.609077",
  "modified_by": "Administrator",
  "module": "sahayog_survey",
  "name": "Sahayog Survey",
