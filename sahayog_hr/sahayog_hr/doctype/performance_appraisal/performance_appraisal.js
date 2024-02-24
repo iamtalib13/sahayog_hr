@@ -392,7 +392,7 @@ frappe.ui.form.on("Performance Appraisal", {
     frm.set_intro("Please Give Your Ratings to the Employee ", "green");
   },
   refresh: function (frm) {
-    //frm.trigger("button_colors");
+    frm.trigger("section_colors");
 
     let session_emp_user = frappe.session.user;
 
@@ -785,7 +785,47 @@ frappe.ui.form.on("Performance Appraisal", {
     //* </skip tab hide /unhide depends on employee rating status>
   },
   //*-----------------------------------------------------------------------------------------------*//
+  section_colors(frm) {
+    frm.fields_dict["section_break_period"].wrapper.css(
+      "background-color",
+      "antiquewhite"
+    );
 
+    // Lightened blue for "ac_information_section"
+    frm.fields_dict["section_break_xgllc"].wrapper.css(
+      "background-color",
+      "#DCF2F1" // Hex color code for the lightened blue
+    );
+
+    // Lightened blue for "employee_section_a"
+    frm.fields_dict["employee_section_a"].wrapper.css(
+      "background-color",
+      "#DCF2F1" // Hex color code for the lightened blue
+    );
+
+    // Lightened blue for "employee_section_a_btn"
+    frm.fields_dict["employee_section_a_btn"].wrapper.css(
+      "background-color",
+      "#DCF2F1" // Hex color code for the lightened blue
+    );
+
+    frm.fields_dict["section_break_22"].wrapper.css(
+      "background-color",
+      "antiquewhite"
+    );
+    frm.fields_dict["decision_title"].wrapper.css(
+      "background-color",
+      "antiquewhite"
+    );
+    frm.fields_dict["team_section"].wrapper.css(
+      "background-color",
+      "antiquewhite"
+    );
+    frm.fields_dict["technical_sectio"].wrapper.css(
+      "background-color",
+      "antiquewhite"
+    );
+  },
   hideFromEmployee: function (frm) {
     console.log("Hid");
     frm.set_df_property("employee_rating_tab", "hidden", 1);
@@ -843,7 +883,7 @@ frappe.ui.form.on("Performance Appraisal", {
               frm.set_value("total_weightage", total_weight);
               frm.set_value("sum_of_rating", sum_of_rating);
 
-              overall_rating = total_weight * sum_of_rating;
+              overall_rating = sum_of_rating / frm.doc.emp_kra_table.length;
               frm.set_value("overall_rating", overall_rating);
               frm.set_value("employee_overall_rating", overall_rating);
               frm.set_value("skip_emp_sec_a_rating", overall_rating);
@@ -1095,9 +1135,15 @@ frappe.ui.form.on("Performance Appraisal", {
     if (session_emp_user === frm.doc.user_id) {
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         console.log("Calculating total ranking");
-        let sectionA = frm.doc.overall_rating;
-        let sectionB = frm.doc.overall_section_b_rating;
-        let emp_tot_weights_ranking = (sectionA + sectionB) / 100;
+        let sectionA = parseInt(frm.doc.overall_rating);
+        let sectionB = parseInt(frm.doc.overall_section_b_rating);
+
+        console.log("Sec A - ", sectionA);
+        console.log("Sec B - ", sectionB);
+
+        let emp_tot_weights_ranking = (sectionA + sectionB) / 2;
+
+        console.log("Total - ", emp_tot_weights_ranking);
 
         frm.set_value("emp_tot_weight_ranking", emp_tot_weights_ranking);
         console.log(emp_tot_weights_ranking);
