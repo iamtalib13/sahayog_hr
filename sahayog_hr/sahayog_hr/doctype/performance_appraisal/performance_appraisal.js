@@ -392,6 +392,8 @@ frappe.ui.form.on("Performance Appraisal", {
     frm.set_intro("Please Give Your Ratings to the Employee ", "green");
   },
   refresh: function (frm) {
+    //frm.trigger("button_colors");
+
     let session_emp_user = frappe.session.user;
 
     // if (frm.doc.employee_status == "Satisfied") {
@@ -552,37 +554,42 @@ frappe.ui.form.on("Performance Appraisal", {
 
       if (!frm.doc.__islocal && frm.doc.appraiser_overall_rating == null) {
         if (frm.doc.status == "Draft") {
-          frm.add_custom_button(__("Send to Appraiser"), function () {
-            if (frm.doc.employee_rating_fetched == "Fetched") {
-              frappe.msgprint(
-                "Your Rating has been Already Sent to <b>" +
-                  firstName +
-                  "</b> <b>" +
-                  lastName +
-                  "</b> "
-              );
-            } else if (frm.doc.employee_rating_fetched == "Not-Fetched") {
-              frappe.confirm(
-                "Are you sure you want to submit your form to <b>" +
-                  firstName +
-                  "</b> <b>" +
-                  lastName +
-                  "</b> ?",
-                () => {
-                  // action to perform if Yes is selected
-                  frappe.show_alert("successfully sent to your Appraiser");
-                  frm.trigger("send_to_appraiser");
+          frm
+            .add_custom_button(__("Send to Appraiser"), function () {
+              if (frm.doc.employee_rating_fetched == "Fetched") {
+                frappe.msgprint(
+                  "Your Rating has been Already Sent to <b>" +
+                    firstName +
+                    "</b> <b>" +
+                    lastName +
+                    "</b> "
+                );
+              } else if (frm.doc.employee_rating_fetched == "Not-Fetched") {
+                frappe.confirm(
+                  "Are you sure you want to submit your form to <b>" +
+                    firstName +
+                    "</b> <b>" +
+                    lastName +
+                    "</b> ?",
+                  () => {
+                    // action to perform if Yes is selected
+                    frappe.show_alert("successfully sent to your Appraiser");
+                    frm.trigger("send_to_appraiser");
 
-                  frm.save();
-                },
-                () => {
-                  frappe.show_alert(
-                    "Now You Can change Your Section A & Section B"
-                  );
-                }
-              );
-            }
-          });
+                    frm.save();
+                  },
+                  () => {
+                    frappe.show_alert(
+                      "Now You Can change Your Section A & Section B"
+                    );
+                  }
+                );
+              }
+            })
+            .css({
+              "background-color": "#28a745",
+              color: "#ffffff",
+            });
         }
 
         //*</Activate (Sent to Appraiser) button when employee want to sent their rating to appraiser>

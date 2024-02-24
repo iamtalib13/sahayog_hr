@@ -268,12 +268,11 @@
    "read_only": 1
   },
   {
-   "default": "Mid-Term Appraisal",
    "fieldname": "appraisal_period",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Appraisal Period",
-   "options": "Mid-Term Appraisal",
+   "options": "\nFinal-Term Appraisal",
    "reqd": 1,
    "set_only_once": 1
   },
@@ -1378,7 +1377,7 @@
  ],
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2023-11-03 16:01:58.243061",
+ "modified": "2024-02-24 12:15:19.243855",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",
