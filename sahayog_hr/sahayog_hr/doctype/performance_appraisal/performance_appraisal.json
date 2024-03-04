@@ -10,10 +10,10 @@
   "employee_basic_details_tab",
   "status",
   "employee_id",
+  "full_name",
   "user_id",
   "date_of_joining",
   "column_break_vwkub",
-  "full_name",
   "designation",
   "column_break_ajqh0",
   "region",
@@ -23,9 +23,10 @@
   "branch",
   "appraisal_category",
   "appraisers_name",
-  "employee_tab",
+  "tab_employee_tab",
   "section_break_period",
   "appraisal_period",
+  "appraiser_rating_fetched",
   "column_break_5",
   "date_of_appraisal",
   "section_break_xgllc",
@@ -35,9 +36,7 @@
   "employee_section_a_btn",
   "calculate_section_a",
   "overall_rating",
-  "employee_section_a_result",
   "total_weightage",
-  "dfsggdg",
   "sum_of_rating",
   "section_break_22",
   "section_2_html",
@@ -45,11 +44,11 @@
   "technical_emp_rating",
   "column_break_20",
   "technical_emp_comments",
-  "thougts",
+  "thougtss",
   "thought_emp_rating",
   "column_break_24",
   "employee_comments",
-  "pe",
+  "ped",
   "people_emp_rating",
   "column_break_28",
   "people_emp_comments",
@@ -94,7 +93,7 @@
   "team_work_emp_rating",
   "column_break_70",
   "team_work_emp_comment",
-  "initiative_section",
+  "initiative_sections",
   "initiative_emp_rating",
   "column_break_74",
   "initiative_emp_comment",
@@ -109,9 +108,14 @@
   "sec_b_sum_rating",
   "gjgjfhfd",
   "no_of_attributes",
-  "section",
+  "emp_ranking_section",
   "cal_emp_tot_weight_ranking",
+  "column_break_5cwmw",
   "emp_tot_weight_ranking",
+  "column_break_ssgwb",
+  "emp_ranking",
+  "column_break_a52z4",
+  "emp_status",
   "fkjbfjgb",
   "emp_sec_c_html",
   "section_c",
@@ -133,6 +137,7 @@
   "appraiser_rating_calculated",
   "appraiser_kra_table",
   "section_break_93",
+  "section_break_pawfc",
   "employee_overall_rating",
   "column_break_95",
   "cc",
@@ -150,10 +155,14 @@
   "app_sec_b_app_rating",
   "appraiser_feedback_section",
   "emp_given_ranking",
+  "emp_given_rank",
+  "emp_given_status",
   "column_break_138",
   "btn_calculate_appraiser_overall_rating",
   "column_break_139",
   "end_app_rating",
+  "emp_app_rank",
+  "emp_app_status",
   "cseptrator1",
   "emp_promotion",
   "sec_c_app_final_feedback",
@@ -194,10 +203,16 @@
   "calculate_skip_rating",
   "section_break_122",
   "skip_emp_overall_rating",
+  "emp_give_rank",
+  "emp_give_status",
   "column_break_125",
   "skip_appraiser_overall_rating",
+  "appraiser_given_rank",
+  "appraiser_given_status",
   "column_break_127",
   "skip_overall_rating",
+  "emp_skip_rank",
+  "emp_skip_status",
   "section_break_187",
   "skip_report",
   "section_break_153",
@@ -208,9 +223,9 @@
  ],
  "fields": [
   {
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
    "fieldname": "employee_basic_details_tab",
    "fieldtype": "Tab Break",
-   "hidden": 1,
    "label": "Employee Basic Details"
   },
   {
@@ -268,11 +283,12 @@
    "read_only": 1
   },
   {
+   "default": "Final-Term Appraisal",
    "fieldname": "appraisal_period",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Appraisal Period",
-   "options": "\nFinal-Term Appraisal",
+   "options": "Final-Term Appraisal",
    "reqd": 1,
    "set_only_once": 1
   },
@@ -336,13 +352,6 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Ability to consider the total environment, including people  process and business. Synergize information and perspectives in order to arrive at a complete assessment and solutions.  Has the organization to think through the consequences of decisions and their impact.",
-   "fieldname": "thougts",
-   "fieldtype": "Section Break",
-   "label": "Thought leadership-holistic and strategic perspective"
-  },
-  {
    "fieldname": "thought_emp_rating",
    "fieldtype": "Select",
    "label": "Employee Rating",
@@ -359,13 +368,6 @@
    "fieldtype": "Small Text",
    "label": "Employee Comments",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
-  },
-  {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Assesses the strengths and weaknesses of an individual  and determines the best development approach to enable him/her  to reach full potential. Coaches and mentors others for their  personal and professional growth.",
-   "fieldname": "pe",
-   "fieldtype": "Section Break",
-   "label": "People Development"
   },
   {
    "fieldname": "people_emp_rating",
@@ -640,13 +642,6 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"3\"",
-   "description": "A preference to act and doing more than what is required or expected",
-   "fieldname": "initiative_section",
-   "fieldtype": "Section Break",
-   "label": "Initiative"
-  },
-  {
    "fieldname": "initiative_emp_rating",
    "fieldtype": "Select",
    "label": "Employee Rating",
@@ -751,7 +746,7 @@
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "calculate_appraiser_rating",
    "fieldtype": "Button",
-   "label": "Calculate Section A Appraiser Rating"
+   "label": "Save Section A "
   },
   {
    "fieldname": "section_break_93",
@@ -815,6 +810,7 @@
   },
   {
    "collapsible": 1,
+   "depends_on": "eval:frappe.user.has_role('System Manager')  ",
    "fieldname": "appraiser_details_section",
    "fieldtype": "Section Break",
    "label": "Appraiser Details"
@@ -830,6 +826,7 @@
   },
   {
    "collapsible": 1,
+   "depends_on": "//eval:frappe.user.has_role('System Manager')  ",
    "fieldname": "skip_details_section",
    "fieldtype": "Section Break",
    "label": "SKIP Details"
@@ -842,7 +839,7 @@
   {
    "fieldname": "calculate_skip_rating",
    "fieldtype": "Button",
-   "label": "Calculate Overall Rating"
+   "label": "Save Total Rating"
   },
   {
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
@@ -852,13 +849,13 @@
   {
    "fieldname": "skip_appraiser_overall_rating",
    "fieldtype": "Data",
-   "label": "Appraiser Overall Ranking",
+   "label": "Appraiser Given Rating",
    "read_only": 1
   },
   {
    "fieldname": "skip_emp_overall_rating",
    "fieldtype": "Data",
-   "label": "Employee Overall Ranking",
+   "label": "Employee Given Rating",
    "read_only": 1
   },
   {
@@ -873,7 +870,7 @@
    "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "calculate_section_b",
    "fieldtype": "Button",
-   "label": "Calculate Section B"
+   "label": "Save Section B"
   },
   {
    "fieldname": "overall_section_b_rating",
@@ -885,19 +882,18 @@
    "fieldname": "employee_section_b_table",
    "fieldtype": "Table",
    "label": "Section B",
-   "mandatory_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "options": "Employee Section B Table"
   },
   {
    "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "calculate_section_a",
    "fieldtype": "Button",
-   "label": "Calculate Section A"
+   "label": "Save Section A"
   },
   {
    "fieldname": "emp_reason",
    "fieldtype": "Text Editor",
-   "label": "Employee Feedback",
+   "label": "Appraiser Feedback",
    "print_width": "150px",
    "read_only": 1,
    "width": "150px"
@@ -912,6 +908,7 @@
   {
    "fieldname": "employee_status",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Employee Status",
    "options": "\nSatisfied\nNot-Satisfied",
    "read_only": 1,
@@ -935,12 +932,12 @@
   {
    "fieldname": "employee_feedback_section",
    "fieldtype": "Section Break",
-   "label": "Employee Feedback"
+   "label": "Appraiser Feedback"
   },
   {
    "fieldname": "skip_overall_rating",
    "fieldtype": "Data",
-   "label": "Skip Overall Rating",
+   "label": "Skip Given Rating",
    "read_only": 1
   },
   {
@@ -955,7 +952,7 @@
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "btn_calculate_app_section_b",
    "fieldtype": "Button",
-   "label": "Calculate Section B Appraiser Rating"
+   "label": "Save Section B"
   },
   {
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
@@ -984,31 +981,32 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.sec_c_skill_1==\"Other\" || doc.sec_c_skill_2==\"Other\" || doc.sec_c_skill_3==\"Other\" ",
    "fieldname": "emp_sec_c_other",
    "fieldtype": "Small Text",
    "label": "Any Other as per your choice",
+   "mandatory_depends_on": "eval:doc.sec_c_skill_1==\"Other\"|| doc.sec_c_skill_3==\"Other\" || doc.sec_c_skill_3==\"Other\"",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
    "fieldname": "sec_c_skill_1",
    "fieldtype": "Select",
    "label": "Skill 1",
-   "options": "Select\nSoft Skill\nTeam Handling\nCustomer Service\nProblem Solving\nCreative Thinking\nCommunication\nSpoken English\nPresentation Skill\nData Reading & Analysis\nExcel Skills\nOther",
-   "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
+   "options": "\nSoft Skill\nTeam Handling\nCustomer Service\nProblem Solving\nCreative Thinking\nCommunication\nSpoken English\nPresentation Skill\nData Reading & Analysis\nExcel Skills\nOther",
+   "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
+   "reqd": 1
   },
   {
    "fieldname": "sec_c_skill_2",
    "fieldtype": "Select",
    "label": "Skill 2",
-   "options": "Select\nSoft Skill\nTeam Handling\nCustomer Service\nProblem Solving\nCreative Thinking\nCommunication\nSpoken English\nPresentation Skill\nData Reading & Analysis\nExcel Skills\nOther",
+   "options": "\nSoft Skill\nTeam Handling\nCustomer Service\nProblem Solving\nCreative Thinking\nCommunication\nSpoken English\nPresentation Skill\nData Reading & Analysis\nExcel Skills\nOther",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
    "fieldname": "sec_c_skill_3",
    "fieldtype": "Select",
    "label": "Skill 3",
-   "options": "Select\nSoft Skill\nTeam Handling\nCustomer Service\nProblem Solving\nCreative Thinking\nCommunication\nSpoken English\nPresentation Skill\nData Reading & Analysis\nExcel Skills\nOther",
+   "options": "\nSoft Skill\nTeam Handling\nCustomer Service\nProblem Solving\nCreative Thinking\nCommunication\nSpoken English\nPresentation Skill\nData Reading & Analysis\nExcel Skills\nOther",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -1040,17 +1038,14 @@
    "description": "Thank you for recommending the employee for promotion. We appreciate your input and would like to request your feedback on the employee's performance.",
    "fieldname": "sec_c_app_final_feedback",
    "fieldtype": "Text",
-   "label": "Feedback"
+   "label": "Feedback",
+   "mandatory_depends_on": "eval:doc.emp_promotion==\"Yes\""
   },
   {
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "btn_calculate_appraiser_overall_rating",
    "fieldtype": "Button",
-   "label": "Calculate Employee Overall Ranking"
-  },
-  {
-   "fieldname": "dfsggdg",
-   "fieldtype": "Column Break"
+   "label": "Save Total Rating"
   },
   {
    "fieldname": "fhhdfhd",
@@ -1075,14 +1070,14 @@
   {
    "fieldname": "emp_tot_weight_ranking",
    "fieldtype": "Data",
-   "label": "Total Weights Ranking",
+   "label": "Total Rating (Section A + Section B)",
    "read_only": 1
   },
   {
    "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "cal_emp_tot_weight_ranking",
    "fieldtype": "Button",
-   "label": "Calculate Total Weights Ranking"
+   "label": "Save Total Rating"
   },
   {
    "fieldname": "column_break_139",
@@ -1096,13 +1091,13 @@
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "emp_given_ranking",
    "fieldtype": "Data",
-   "label": "Employee Given Ranking",
+   "label": "Employee Given Rating",
    "read_only": 1
   },
   {
    "fieldname": "end_app_rating",
    "fieldtype": "Data",
-   "label": "Appraiser Given Ranking",
+   "label": "Appraiser Given Rating",
    "read_only": 1
   },
   {
@@ -1132,7 +1127,7 @@
   {
    "fieldname": "btn_skip_section_a_rating",
    "fieldtype": "Button",
-   "label": "Calculate Section A Rating"
+   "label": "Save Section A"
   },
   {
    "fieldname": "column_break_166",
@@ -1191,7 +1186,7 @@
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
    "fieldname": "btn_skip_sec_b_rating",
    "fieldtype": "Button",
-   "label": "Calculate Section B Rating"
+   "label": "Save Section B"
   },
   {
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
@@ -1258,11 +1253,6 @@
    "read_only": 1
   },
   {
-   "fieldname": "employee_tab",
-   "fieldtype": "Tab Break",
-   "label": "KRA"
-  },
-  {
    "fieldname": "appraiser_tab",
    "fieldtype": "Tab Break",
    "label": "Appraiser"
@@ -1298,7 +1288,7 @@
   {
    "fieldname": "emp_sec_c_html",
    "fieldtype": "HTML",
-   "options": "<div>\n  <h3 style=\"color: #000;\"> Section C : The Personal Developmental Plan <span style=\"color: red;\">(Optional)</span></h3>\n</div>\n"
+   "options": "<div>\n  <h3 style=\"color: #000;\"> Section C : The Personal Developmental Plan <span style=\"color: red;\">(Minimum 1 Skill is Mandatory)</span></h3>\n</div>\n"
   },
   {
    "fieldname": "section_break_period",
@@ -1306,10 +1296,6 @@
   },
   {
    "fieldname": "employee_section_a_btn",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "employee_section_a_result",
    "fieldtype": "Section Break"
   },
   {
@@ -1347,17 +1333,12 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "section",
-   "fieldtype": "Section Break",
-   "label": "Ranking"
-  },
-  {
    "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
    "in_standard_filter": 1,
    "label": "Status",
-   "options": "Draft\nSubmitted"
+   "options": "Draft\nSubmitted\nRejected"
   },
   {
    "depends_on": "eval:doc.appraisal_category == \"3\"",
@@ -1371,11 +1352,139 @@
    "fieldname": "technical_sectio",
    "fieldtype": "Section Break",
    "label": "Technical & Functional knowledge"
+  },
+  {
+   "fieldname": "tab_employee_tab",
+   "fieldtype": "Tab Break",
+   "label": "Appraisee"
+  },
+  {
+   "fieldname": "emp_ranking",
+   "fieldtype": "Data",
+   "label": "Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_status",
+   "fieldtype": "Data",
+   "label": "Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_given_rank",
+   "fieldtype": "Data",
+   "label": "Employee Given Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_given_status",
+   "fieldtype": "Data",
+   "label": "Employee Given Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_app_rank",
+   "fieldtype": "Data",
+   "label": "Appraiser Given Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_app_status",
+   "fieldtype": "Data",
+   "label": "Appraiser Given Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_skip_rank",
+   "fieldtype": "Data",
+   "label": "Skip Given Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_skip_status",
+   "fieldtype": "Data",
+   "label": "Skip Given Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_give_rank",
+   "fieldtype": "Data",
+   "label": "Employee Given Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "emp_give_status",
+   "fieldtype": "Data",
+   "label": "Employee Given Status",
+   "read_only": 1
+  },
+  {
+   "fieldname": "appraiser_given_rank",
+   "fieldtype": "Data",
+   "label": "Appraiser Given Rank",
+   "read_only": 1
+  },
+  {
+   "fieldname": "appraiser_given_status",
+   "fieldtype": "Data",
+   "label": "Appraiser Given Status",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval:doc.appraisal_category == \"1\"",
+   "description": "Ability to consider the total environment, including people  process and business. Synergize information and perspectives in order to arrive at a complete assessment and solutions.  Has the organization to think through the consequences of decisions and their impact.",
+   "fieldname": "thougtss",
+   "fieldtype": "Section Break",
+   "label": "Thought leadership-holistic and strategic perspective"
+  },
+  {
+   "depends_on": "eval:doc.appraisal_category == \"1\"",
+   "description": "Assesses the strengths and weaknesses of an individual  and determines the best development approach to enable him/her  to reach full potential. Coaches and mentors others for their  personal and professional growth.",
+   "fieldname": "ped",
+   "fieldtype": "Section Break",
+   "label": "People Development"
+  },
+  {
+   "depends_on": "eval:doc.appraisal_category == \"3\"",
+   "description": "A preference to act and doing more than what is required or expected",
+   "fieldname": "initiative_sections",
+   "fieldtype": "Section Break",
+   "label": "Initiative"
+  },
+  {
+   "fieldname": "emp_ranking_section",
+   "fieldtype": "Section Break",
+   "label": "Ranking"
+  },
+  {
+   "fieldname": "column_break_ssgwb",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "column_break_5cwmw",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "column_break_a52z4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_pawfc",
+   "fieldtype": "Section Break"
+  },
+  {
+   "default": "Not-Fetched",
+   "fieldname": "appraiser_rating_fetched",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Appraiser Rating Fetched",
+   "options": "\nFetched\nNot-Fetched"
   }
  ],
+ "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-02-24 13:34:22.053805",
+ "modified": "2024-03-02 10:35:11.147817",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",
