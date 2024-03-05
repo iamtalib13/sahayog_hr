@@ -41,63 +41,78 @@
   "section_break_22",
   "section_2_html",
   "technical_sectio",
+  "html_technical_section",
   "technical_emp_rating",
   "column_break_20",
   "technical_emp_comments",
   "thougtss",
+  "html_thougtss",
   "thought_emp_rating",
   "column_break_24",
   "employee_comments",
   "ped",
+  "html_ped",
   "people_emp_rating",
   "column_break_28",
   "people_emp_comments",
   "managing_title",
+  "html_managing_title",
   "managing_emp_rating",
   "column_break_32",
   "managing_emp_comments",
   "decision_title",
+  "html_decision_title",
   "decision_emp_rating",
   "column_break_37",
   "decision_emp_comment",
   "planning_section",
+  "html_planning_section",
   "planning_emp_rating",
   "column_break_40",
   "planning_emp_comment",
   "leadership_emp_title",
+  "html_leadership_emp_title",
   "leadership_emp_rating",
   "column_break_44",
   "leadership_emp_comments",
   "section_break_40",
   "humility_emp_title",
+  "html_humility_emp_title",
   "humility_emp_rating",
   "column_break_35",
   "humility_emp_comments",
   "strategic_thinking_section",
+  "html_strategic_thinking_section",
   "strategic_emp_rating",
   "column_break_54",
   "strategic_emp_comment",
   "result_orientation_section",
+  "html_result_orientation_section",
   "result_orientation_emp_rating",
   "column_break_58",
   "result_orientation_emp_comment",
   "personal_interpersonal_effectiveness",
+  "html_personal_interpersonal_effectiveness",
   "personal_and_interpersonal_emp_rating",
   "column_break_62",
   "personal_interpersoanl_emp_comment",
   "people_management_section",
+  "html_people_management_section",
   "people_mngmnt_emp_rating",
   "column_break_66",
   "people_mngmnt_emp_comment",
   "team_section",
+  "html_team_section",
   "team_work_emp_rating",
   "column_break_70",
   "team_work_emp_comment",
   "initiative_sections",
+  "html_initiative_section",
   "initiative_emp_rating",
   "column_break_74",
   "initiative_emp_comment",
   "communication_section",
+  "html_communication_section",
   "communication_emp_rating",
   "column_break_78",
   "communication_emp_comment",
@@ -129,6 +144,7 @@
   "appraiser_tab",
   "appraiser_details_section",
   "appraiser_name",
+  "appraiser_email",
   "column_break_93",
   "ap_name",
   "appraiser_user_id",
@@ -223,7 +239,7 @@
  ],
  "fields": [
   {
-   "depends_on": "eval:frappe.user.has_role('System Manager')",
+   "depends_on": "eval:frappe.user.has_role('System Manager') ",
    "fieldname": "employee_basic_details_tab",
    "fieldtype": "Tab Break",
    "label": "Employee Basic Details"
@@ -388,18 +404,14 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Strives to learn continuously from anyone for self and  organisational growth.",
+   "depends_on": "eval:doc.appraisal_category == \"1\"  || doc.appraisal_category == \"S2\" || doc.appraisal_category == \"S1\"",
    "fieldname": "humility_emp_title",
-   "fieldtype": "Section Break",
-   "label": "Humility to learn"
+   "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Builds effective relationships across functions/levels/roles. Utilizes those relationships effectively to achieve the goals of the organization  and self. Connects well with people internally and externally.",
+   "depends_on": "eval:doc.appraisal_category == \"S1\"",
    "fieldname": "managing_title",
-   "fieldtype": "Section Break",
-   "label": "Managing relationships \u2013 collaboration\t"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "humility_emp_rating",
@@ -438,11 +450,10 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"3\"",
+   "depends_on": "eval:doc.appraisal_category == \"1\"  || doc.appraisal_category == \"S2\" || doc.appraisal_category == \"S1\"",
    "description": "Is capable of identifying the precise cause of the problem, carrying out root cause analysis and identify deviations from standards or objectives.  Once he/she identifies the problem, implements a suitable course of action  without delay. Gathers and provides resources to achieve objectives.",
    "fieldname": "decision_title",
-   "fieldtype": "Section Break",
-   "label": "Decision making & problem solving\t"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "decision_emp_rating",
@@ -467,11 +478,9 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Plans and prioritizes all activities. Manages time and task effectively to meet the organization's objectives",
+   "depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"S1\"",
    "fieldname": "planning_section",
-   "fieldtype": "Section Break",
-   "label": "Planning"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "planning_emp_rating",
@@ -482,11 +491,9 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Using the power of self appropriately to guide and lead a team towards a shared vision",
+   "depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"S1\"",
    "fieldname": "leadership_emp_title",
-   "fieldtype": "Section Break",
-   "label": "Leadership Presence"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "leadership_emp_rating",
@@ -524,11 +531,9 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\"",
-   "description": "Establishes and strengthens the processes, teams and Organization's Competitive advantage and position. Provides direction",
+   "depends_on": "eval:doc.appraisal_category==\"S1\"",
    "fieldname": "strategic_thinking_section",
-   "fieldtype": "Section Break",
-   "label": "Strategic Thinking"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "strategic_emp_rating",
@@ -549,11 +554,9 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\"",
-   "description": "Consistently delivers against goals and targets simultaneously adding value A concern for achievement and acquiring a standard of excellence",
    "fieldname": "result_orientation_section",
    "fieldtype": "Section Break",
-   "label": "Result Orientation"
+   "hidden": 1
   },
   {
    "fieldname": "result_orientation_emp_rating",
@@ -574,11 +577,9 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\"",
-   "description": "Exhibits a willingness and ability to grow professionally and helps others grow as well",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\" || doc.appraisal_category == \"S3\"",
    "fieldname": "personal_interpersonal_effectiveness",
-   "fieldtype": "Section Break",
-   "label": "Personal & Interpersonal Effectiveness"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "personal_and_interpersonal_emp_rating",
@@ -599,11 +600,9 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\"",
-   "description": "Realizes and leverages on the full potential of people, achieves cohesiveness, reduces divisionary tendencies, nurtures talent and creates a climate of trust",
+   "depends_on": "eval:doc.appraisal_category == \"S1\"",
    "fieldname": "people_management_section",
-   "fieldtype": "Section Break",
-   "label": "People Management"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "people_mngmnt_emp_rating",
@@ -660,11 +659,9 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"3\"",
-   "description": "An ability to impart or exchange and understand thoughts and ideas orally and in written",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\"|| doc.appraisal_category == \"S3\"",
    "fieldname": "communication_section",
-   "fieldtype": "Section Break",
-   "label": "Communication"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "communication_emp_rating",
@@ -1283,7 +1280,7 @@
   {
    "fieldname": "section_2_html",
    "fieldtype": "HTML",
-   "options": "<div>\n  <h3 style=\"color: #000; position: relative; padding-left: 20px;\">\n    <span style=\"position: absolute; left: 0; top: 0; color: red;\">*</span>\n    Section B: Personal Effectiveness Index / Leadership Competencies\n  </h3>\n</div>\n"
+   "options": "<div style=\"background: #353935; padding: 10px; border-radius: 5px;\">\n    <div style=\"font-size: 24px; color: white; font-weight: bold; padding: 0; text-align: left;\">Section B: Personal Effectiveness Index / Leadership Competencies</div>\n</div>\n"
   },
   {
    "fieldname": "emp_sec_c_html",
@@ -1301,7 +1298,7 @@
   {
    "fieldname": "section_a_html",
    "fieldtype": "HTML",
-   "options": "<div>\n  <h3 style=\"color: #000; position: relative; padding-left: 20px;\">\n    <span style=\"position: absolute; left: 0; top: 0; color: red;\">*</span>\n    Section A: Key Result Areas\n  </h3>\n</div>\n"
+   "options": "<div style=\"background: #353935; padding: 10px; border-radius: 5px;\">\n    <div style=\"font-size: 24px; color: White; font-weight: bold; padding: 0; text-align: left;\">Section A: Key Result Areas</div>\n</div>\n"
   },
   {
    "fieldname": "section_break_xgllc",
@@ -1341,17 +1338,14 @@
    "options": "Draft\nSubmitted\nRejected"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"3\"",
-   "description": "A cooperative attitude between those work together on a task / series of task and Job",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S3\"",
    "fieldname": "team_section",
-   "fieldtype": "Section Break",
-   "label": "Team Work"
+   "fieldtype": "Section Break"
   },
   {
-   "description": "Exhibits comprehensive understanding of the core set of Technical and functional aspects of particular function",
+   "bold": 1,
    "fieldname": "technical_sectio",
-   "fieldtype": "Section Break",
-   "label": "Technical & Functional knowledge"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "tab_employee_tab",
@@ -1432,24 +1426,19 @@
   },
   {
    "depends_on": "eval:doc.appraisal_category == \"1\"",
-   "description": "Ability to consider the total environment, including people  process and business. Synergize information and perspectives in order to arrive at a complete assessment and solutions.  Has the organization to think through the consequences of decisions and their impact.",
    "fieldname": "thougtss",
-   "fieldtype": "Section Break",
-   "label": "Thought leadership-holistic and strategic perspective"
+   "fieldtype": "Section Break"
   },
   {
    "depends_on": "eval:doc.appraisal_category == \"1\"",
    "description": "Assesses the strengths and weaknesses of an individual  and determines the best development approach to enable him/her  to reach full potential. Coaches and mentors others for their  personal and professional growth.",
    "fieldname": "ped",
-   "fieldtype": "Section Break",
-   "label": "People Development"
+   "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"3\"",
-   "description": "A preference to act and doing more than what is required or expected",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category==\"S2\" || doc.appraisal_category==\"S3\"",
    "fieldname": "initiative_sections",
-   "fieldtype": "Section Break",
-   "label": "Initiative"
+   "fieldtype": "Section Break"
   },
   {
    "fieldname": "emp_ranking_section",
@@ -1479,12 +1468,94 @@
    "hidden": 1,
    "label": "Appraiser Rating Fetched",
    "options": "\nFetched\nNot-Fetched"
+  },
+  {
+   "fetch_from": "employee_id.reporting_employee_email",
+   "fieldname": "appraiser_email",
+   "fieldtype": "Data",
+   "label": "Appraiser Employee Email"
+  },
+  {
+   "fieldname": "html_technical_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\n        Technical &amp; Functional Knowledge\n    </div>\n</div>\n<div id=\"section_technical\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n    Exhibits comprehensive understanding of the core set of Technical and functional aspects of particular function\n</div>\n"
+  },
+  {
+   "fieldname": "html_initiative_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\n       Initiative\n    </div>\n</div>\n<div id=\"section_initiative_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n    A preference to act and doing more than what is required or expected\n</div>\n"
+  },
+  {
+   "fieldname": "html_communication_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\n       Communication\n    </div>\n</div>\n<div id=\"section_communication_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n   An ability to impart or exchange and understand core subject, thoughts and ideas orally and in written.\n</div>\n"
+  },
+  {
+   "fieldname": "html_thougtss",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nThought leadership-holistic and strategic perspective    </div>\n</div>\n<div id=\"section_thougtss\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n    Ability to consider the total environment, including people  process and business. Synergize information and perspectives in order to arrive at a complete assessment and solutions.  Has the organization to think through the consequences of decisions and their impact.\n</div>\n"
+  },
+  {
+   "fieldname": "html_ped",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nPeople Development    </div>\n</div>\n<div id=\"section_ped\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n    Assesses the strengths and weaknesses of an individual  and determines the best development approach to enable him/her  to reach full potential. Coaches and mentors others for their  personal and professional growth.\n</div>\n"
+  },
+  {
+   "depends_on": "eval:doc.appraisal_category==\"S1\"",
+   "fieldname": "html_managing_title",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nManaging relationships \u2013 collaboration\t    </div>\n</div>\n<div id=\"section_managing_title\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n    Builds effective relationships across functions/levels/roles. Utilizes those relationships effectively to achieve the goals of the organization  and self. Connects well with people internally and externally.\n</div>\n"
+  },
+  {
+   "fieldname": "html_decision_title",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nDecision making &amp; problem solving\t  </div>\n</div>\n<div id=\"section_decision_title\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n    Is capable of identifying the precise cause of the problem, carrying out root cause analysis and identify deviations from standards or objectives.  Once he/she identifies the problem, implements a suitable course of action  without delay. Gathers and provides resources to achieve objectives.\n</div>\n"
+  },
+  {
+   "fieldname": "html_planning_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nPlanning\t  </div>\n</div>\n<div id=\"section_planning_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n Plans and prioritizes all activities. Manages time and task effectively to meet the organization's objectives\n</div>\n"
+  },
+  {
+   "fieldname": "html_leadership_emp_title",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nLeadership Presence  </div>\n</div>\n<div id=\"section_leadership_emp_title\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\n Using the power of self appropriately to guide and lead a team towards a shared vision.\n</div>\n"
+  },
+  {
+   "fieldname": "html_humility_emp_title",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nHumility to learn </div>\n</div>\n<div id=\"section_humility_emp_title\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nStrives to learn continously from anyone for self and  organizational growth.\n</div>\n"
+  },
+  {
+   "fieldname": "html_strategic_thinking_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nStrategic Thinking </div>\n</div>\n<div id=\"section_strategic_thinking_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nEstablishes and strengthens the processes, teams and Organization's Competitive advantage and position. Provides direction.\n</div>\n"
+  },
+  {
+   "fieldname": "html_result_orientation_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nResult Orientation</div>\n</div>\n<div id=\"section_result_orientation_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nConsistently delivers against goals and targets simultaneously adding value A concern for achievement and acquiring a standard of excellence.\n</div>\n"
+  },
+  {
+   "fieldname": "html_personal_interpersonal_effectiveness",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nPersonal &amp; Interpersonal Effectiveness</div>\n</div>\n<div id=\"section_personal_interpersonal_effectiveness\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nExhibits a willingness and ability to grow professionally and helps others grow as well. Collaborates and works with Teaching and non teaching staff, colleagues, students and communities to develop and sustain a positive school climate that supports students\u2019 learning.\n</div>\n"
+  },
+  {
+   "fieldname": "html_people_management_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nPeople Management</div>\n</div>\n<div id=\"section_people_management_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nRealizes and leverages on the full potential of people, achieves cohesiveness, reduces divisionary tendencies, nurtures talent and creates a climate of trust\n</div>\n"
+  },
+  {
+   "fieldname": "html_team_section",
+   "fieldtype": "HTML",
+   "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nTeam Work</div>\n</div>\n<div id=\"section_team_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nA Cooperative attitude between those working together on a task/ series of tasks and jobs.\n</div>\n"
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-02 10:35:11.147817",
+ "modified": "2024-03-05 12:59:31.635990",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",

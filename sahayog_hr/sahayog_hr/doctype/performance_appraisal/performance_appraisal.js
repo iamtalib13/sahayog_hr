@@ -337,9 +337,24 @@ frappe.ui.form.on("Performance Appraisal", {
 
   employeeDetailsCss: function (frm) {
     if (frm.is_new()) {
-      let user = frappe.session.user;
+      // Get the numeric part of the user string
       let eid = user.match(/\d+/)[0];
-      frm.set_value("employee_id", eid);
+
+      // Initialize the modified employee_id
+      let modifiedEmployeeId = "";
+
+      // Check if the user string contains "ABPS" or "MCPS"
+      if (user.includes("ABPS")) {
+        modifiedEmployeeId = "ABPS" + eid;
+      } else if (user.includes("MCPS")) {
+        modifiedEmployeeId = "MCPS" + eid;
+      } else {
+        // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
+        modifiedEmployeeId = eid;
+      }
+
+      // Set the "employee_id" field with the modified value
+      frm.set_value("employee_id", modifiedEmployeeId);
       let empid = frm.doc.employee_id;
       frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
         let employee_name = r.message.employee_name;
@@ -416,6 +431,7 @@ frappe.ui.form.on("Performance Appraisal", {
     frm.set_intro("Please Give Your Ratings to the Employee ", "green");
   },
   refresh: function (frm) {
+    frm.trigger("school_description");
     frm.trigger("buttons_colors");
     frm.trigger("appraisee_section_colors");
     frm.trigger("appraiser_section_colors");
@@ -423,10 +439,28 @@ frappe.ui.form.on("Performance Appraisal", {
     console.log("logged in id : " + session_emp_user);
 
     if (frm.is_new()) {
-      console.log("set id");
+      console.log("work kar raha hai");
       let user = frappe.session.user;
+      // Get the numeric part of the user string
       let eid = user.match(/\d+/)[0];
-      frm.set_value("employee_id", eid);
+
+      // Initialize the modified employee_id
+      let modifiedEmployeeId = "";
+
+      // Check if the user string contains "ABPS" or "MCPS"
+      if (user.includes("ABPS")) {
+        modifiedEmployeeId = "ABPS" + eid;
+      } else if (user.includes("MCPS")) {
+        modifiedEmployeeId = "MCPS" + eid;
+      } else {
+        // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
+        modifiedEmployeeId = eid;
+      }
+
+      // Set the "employee_id" field with the modified value
+      frm.set_value("employee_id", modifiedEmployeeId);
+      console.log("ID SET");
+
       let empid = frm.doc.employee_id;
       frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
         let employee_name = r.message.employee_name;
@@ -462,10 +496,26 @@ frappe.ui.form.on("Performance Appraisal", {
 
       //Employee - when form is new
       if (frm.is_new()) {
-        console.log("set id");
         let user = frappe.session.user;
+        // Get the numeric part of the user string
         let eid = user.match(/\d+/)[0];
-        frm.set_value("employee_id", eid);
+
+        // Initialize the modified employee_id
+        let modifiedEmployeeId = "";
+
+        // Check if the user string contains "ABPS" or "MCPS"
+        if (user.includes("ABPS")) {
+          modifiedEmployeeId = "ABPS" + eid;
+        } else if (user.includes("MCPS")) {
+          modifiedEmployeeId = "MCPS" + eid;
+        } else {
+          // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
+          modifiedEmployeeId = eid;
+        }
+
+        // Set the "employee_id" field with the modified value
+        frm.set_value("employee_id", modifiedEmployeeId);
+        console.log("ID SET");
         let empid = frm.doc.employee_id;
 
         frappe.db.get_value("Employee", empid, "user_id").then((r) => {
@@ -1238,7 +1288,131 @@ frappe.ui.form.on("Performance Appraisal", {
   //   }
   // },
   //*-----------------------------------------------------------------------------------------------*//
+  school_description(frm) {
+    // Get the numeric part of the user string
+    let eid = user.match(/\d+/)[0];
 
+    // Initialize the modified employee_id
+    let modifiedEmployeeId = "";
+
+    // Check if the user string contains "ABPS" or "MCPS"
+    if (user.includes("ABPS")) {
+      modifiedEmployeeId = "ABPS" + eid;
+    } else if (user.includes("MCPS")) {
+      modifiedEmployeeId = "MCPS" + eid;
+    } else {
+      // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
+      modifiedEmployeeId = eid;
+    }
+
+    // Set the "employee_id" field with the modified value
+    frm.set_value("employee_id", modifiedEmployeeId);
+    let empid = frm.doc.employee_id;
+
+    frappe.db
+      .get_value("Employee", empid, ["division", "appraisal_category"])
+      .then((r) => {
+        let division = r.message.division;
+        let appraisalCategory = r.message.appraisal_category;
+
+        if (division == "School" && appraisalCategory == "S1") {
+          console.log("S1");
+
+          //technical section
+          document.querySelector("#section_technical").innerText =
+            "Exhibits comprehensive understanding of the core set of Technical and functional aspects to teach & managing school";
+
+          //strategic_thinking_section section
+          document.querySelector(
+            "#section_strategic_thinking_section"
+          ).innerText =
+            "Establishes and strengthens the processes, teams and Organization's Competitive advantage and position. Provides direction in preparing strategies and conjure ideas that will both cope with changing environment and consider the various challenges that lie ahead. ";
+
+          //section_managing_title section
+          document.querySelector("#section_managing_title").innerText =
+            "Builds effective relationships across functions/levels/roles. Utilizes those relationships effectively to achieve the goals of the organization  and self. Connects well with people internally and externally.";
+
+          //section_people_management_section section
+          document.querySelector(
+            "#section_people_management_section"
+          ).innerText =
+            "Realizes and leverages on the full potential of people, achieves cohesiveness, reduces divisionary tendencies, nurtures talent and creates a climate of trust";
+
+          //section_decision_title section
+          document.querySelector("#section_decision_title").innerText =
+            "Is capable of identifying the precise cause of the problem, carrying out root cause analysis and identify deviations from standards or objectives.  Once he/she identifies the problem, implements a suitable course of action  without delay. Gathers and provides resources to achieve objectives.";
+
+          //section_planning_section section
+          document.querySelector("#section_planning_section").innerText =
+            "Plans and prioritizes all activities. Manages time and task effectively to meet the organization's objectives";
+
+          //section_leadership_emp_title section
+          document.querySelector("#section_leadership_emp_title").innerText =
+            "Using the power of self appropriately to guide and lead a team towards a shared vision.";
+
+          //section_humility_emp_title section
+          document.querySelector("#section_humility_emp_title").innerText =
+            "Strives to learn continously from anyone for self and  organizational growth.";
+        } else if (division == "School" && appraisalCategory == "S2") {
+          console.log("S2");
+          //technical section
+          document.querySelector("#section_technical").innerText =
+            " Demonstrates an understanding of the curriculum, subject content, and developmental needs of students by providing relevant learning experiences.  Engaged with a fabulous classroom presence and establish creative learning sessions all the time - both offline and digital.  Empathy and understanding to determining each student's strengths and weaknesses.";
+
+          //initiative section
+          document.querySelector("#section_initiative_section").innerText =
+            "A preference to act and doing more than what is required or expected";
+
+          //communication section
+          document.querySelector("#section_communication_section").innerText =
+            "An ability to impart or exchange and understand core subject, thoughts and ideas orally and in written";
+
+          //personal interpersonal effectiveness section
+          document.querySelector(
+            "#section_personal_interpersonal_effectiveness"
+          ).innerText =
+            "Exhibits a willingness and ability to grow professionally and helps others grow as well. Teacher collaborates and works with colleagues, students, parents and communities to develop and sustain a positive school climate that supports students’ learning.";
+
+          //decision_title section
+          document.querySelector("#section_decision_title").innerText =
+            "An ability to select a best course of action amongst several alternatives";
+
+          //Humility to learn section
+          document.querySelector("#section_humility_emp_title").innerText =
+            "Strives to learn continously from anyone for self and  organizational growth.";
+        } else if (division == "School" && appraisalCategory == "S3") {
+          console.log("S3");
+
+          //section_technical section
+          document.querySelector("#section_technical").innerText =
+            "Demonstrates an understanding, knowledge and skill of the core function.  Identifying developmental needs of the department.  ";
+
+          //section_initiative_section section
+          document.querySelector("#section_initiative_section").innerText =
+            "A preference to act and doing more than what is required or expected  ";
+
+          //section_communication_section section
+          document.querySelector("#section_communication_section").innerText =
+            "An ability to impart or exchange and understand core subject, thoughts and ideas orally and in written  ";
+
+          //section_personal_interpersonal_effectiveness section
+          document.querySelector(
+            "#section_personal_interpersonal_effectiveness"
+          ).innerText =
+            "Exhibits a willingness and ability to grow professionally and helps others grow as well. Collaborates and works with Teaching and non teaching staff, colleagues, students and communities to develop and sustain a positive school climate that supports students’ learning.  ";
+
+          //section_team_section section
+          document.querySelector("#section_team_section").innerText =
+            "A Cooperative attitude between those working together on a task/ series of tasks and jobs";
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching employee data:", err);
+      });
+
+    //console.log("school change");
+    // Get the element with the specified class name
+  },
   buttons_colors(frm) {
     frm.fields_dict.calculate_section_a.$input.css({
       "background-color": "black", // Set the background color to black
