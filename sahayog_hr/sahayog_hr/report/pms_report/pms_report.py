@@ -25,7 +25,7 @@ def execute(filters=None):
             "branch": d.branch,
             "Appraisee Rating": d.emp_ranking,
             "Appraiser Rating": d.emp_app_rank,
-            "HOD Rating": d.emp_skip_rank,
+            "Skip Rating": d.emp_skip_rank,
             "Final Rating": "",
             "Promotion Recommendation (Yes/No)": d.emp_promotion,
             "Justification for Promotion": ""
@@ -97,7 +97,7 @@ def get_columns():
             "width": "120",
         },
         {
-            "fieldname": "HOD Rating",
+            "fieldname": "Skip Rating",
             "label": "HOD Rating",
             "fieldtype": "Data",
             "width": "100",

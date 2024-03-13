@@ -240,10 +240,11 @@ frappe.ui.form.on("Performance Appraisal", {
 
   calculate_appraiser_rating: function (frm) {
     let session_emp_user = frappe.session.user;
-    // frappe.msgprint("logged in id : " + session_emp_user);
-    if (session_emp_user === frm.doc.user_id) {
-      frappe.throw("You dont have Enough Permission");
-    } else if (session_emp_user === frm.doc.appraiser_user_id) {
+    console.log("logged in id : " + session_emp_user);
+    // if (frappe.session.user == frm.doc.user_id) {
+    //   frappe.throw("You dont have Enough Permission");
+    // } else
+    if (frappe.session.user == frm.doc.appraiser_user_id) {
       //frappe.msgprint("Appraiser Matched");
       for (let row of frm.doc.appraiser_kra_table) {
         if ((row.appraisar_rating == "") | null) {
@@ -296,7 +297,7 @@ frappe.ui.form.on("Performance Appraisal", {
           }
         }
       }
-    } else if (session_emp_user === frm.doc.skip_user) {
+    } else if (frappe.session.user == frm.doc.skip_user) {
       frappe.throw("You dont have Enough Permission");
     }
   },
@@ -336,34 +337,34 @@ frappe.ui.form.on("Performance Appraisal", {
   },
 
   employeeDetailsCss: function (frm) {
-    if (frm.is_new()) {
-      // Get the numeric part of the user string
-      let eid = user.match(/\d+/)[0];
+    // if (frm.is_new()) {
+    //   // Get the numeric part of the user string
+    //   let eid = user.match(/\d+/)[0];
 
-      // Initialize the modified employee_id
-      let modifiedEmployeeId = "";
+    //   // Initialize the modified employee_id
+    //   let modifiedEmployeeId = "";
 
-      // Check if the user string contains "ABPS" or "MCPS"
-      if (user.includes("ABPS")) {
-        modifiedEmployeeId = "ABPS" + eid;
-      } else if (user.includes("MCPS")) {
-        modifiedEmployeeId = "MCPS" + eid;
-      } else {
-        // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
-        modifiedEmployeeId = eid;
-      }
+    //   // Check if the user string contains "ABPS" or "MCPS"
+    //   if (user.includes("ABPS")) {
+    //     modifiedEmployeeId = "ABPS" + eid;
+    //   } else if (user.includes("MCPS")) {
+    //     modifiedEmployeeId = "MCPS" + eid;
+    //   } else {
+    //     // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
+    //     modifiedEmployeeId = eid;
+    //   }
 
-      // Set the "employee_id" field with the modified value
-      frm.set_value("employee_id", modifiedEmployeeId);
-      let empid = frm.doc.employee_id;
-      frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
-        let employee_name = r.message.employee_name;
-        //console.log("Employee ID : ", frm.doc.employee_id);
-        frm.set_value("full_name", employee_name);
-        frm.refresh_field("frm.doc.full_name");
-        //console.log("Emp name :", frm.doc.full_name);
-      });
-    }
+    //   // Set the "employee_id" field with the modified value
+    //   frm.set_value("employee_id", modifiedEmployeeId);
+    //   let empid = frm.doc.employee_id;
+    //   frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
+    //     let employee_name = r.message.employee_name;
+    //     //console.log("Employee ID : ", frm.doc.employee_id);
+    //     frm.set_value("full_name", employee_name);
+    //     frm.refresh_field("frm.doc.full_name");
+    //     //console.log("Emp name :", frm.doc.full_name);
+    //   });
+    // }
 
     console.log("Employee Details");
     var doc = frm.doc;
@@ -374,7 +375,7 @@ frappe.ui.form.on("Performance Appraisal", {
       html +=
         "<div><strong>Employee ID:</strong> " + doc.employee_id + "</div>";
     }
-    console.log(frm.doc.full_name);
+    //console.log(frm.doc.full_name);
     if (doc.full_name) {
       html +=
         "<div><strong>Employee Name:</strong> " + doc.full_name + "</div>";
@@ -431,6 +432,9 @@ frappe.ui.form.on("Performance Appraisal", {
     frm.set_intro("Please Give Your Ratings to the Employee ", "green");
   },
   refresh: function (frm) {
+    if (!frm.is_new()) {
+      frm.trigger("common_status");
+    }
     frm.trigger("school_description");
     frm.trigger("buttons_colors");
     frm.trigger("appraisee_section_colors");
@@ -439,10 +443,11 @@ frappe.ui.form.on("Performance Appraisal", {
     console.log("logged in id : " + session_emp_user);
 
     if (frm.is_new()) {
-      console.log("work kar raha hai");
-      let user = frappe.session.user;
+      frm.set_df_property("appraisee_submit", "hidden", 1);
+      // console.log("work kar raha hai");
+      //let user = frappe.session.user;
       // Get the numeric part of the user string
-      let eid = user.match(/\d+/)[0];
+      let eid = frappe.session.user.match(/\d+/)[0];
 
       // Initialize the modified employee_id
       let modifiedEmployeeId = "";
@@ -484,7 +489,7 @@ frappe.ui.form.on("Performance Appraisal", {
 
     //console.log("user id : " + frm.doc.user_id);
     //console.log("Employee ID : " + frm.doc.employee_id);
-    if (session_emp_user === frm.doc.user_id) {
+    if (frappe.session.user === frm.doc.user_id) {
       console.log("Employee Matched");
 
       $("#performance-appraisal-skip_tab-tab").css("display", "none");
@@ -496,9 +501,9 @@ frappe.ui.form.on("Performance Appraisal", {
 
       //Employee - when form is new
       if (frm.is_new()) {
-        let user = frappe.session.user;
+        // let user = frappe.session.user;
         // Get the numeric part of the user string
-        let eid = user.match(/\d+/)[0];
+        let eid = frappe.session.user.match(/\d+/)[0];
 
         // Initialize the modified employee_id
         let modifiedEmployeeId = "";
@@ -780,7 +785,7 @@ frappe.ui.form.on("Performance Appraisal", {
       //   __("Appraiser Rating")
       // );
       // // } //* </Activate skip level button when appraiser give their rating to employee>
-    } else if (session_emp_user === frm.doc.appraiser_user_id) {
+    } else if (frappe.session.user === frm.doc.appraiser_user_id) {
       //frm.set_df_property("appraiser_kra_table", "read_only", 0);
       if (frm.doc.appraiser_rating_calculated == "no") {
         if (frm.doc.appraiser_rating_calculated === "no") {
@@ -850,192 +855,194 @@ frappe.ui.form.on("Performance Appraisal", {
 
         frm.disable_save();
 
-        // Code for reject button
-        frm
-          .add_custom_button(__("Reject"), function () {
-            console.log("status : ", frm.doc.status);
-            frm.set_value("employee_rating_fetched", "Not-Fetched");
-            frm.set_value("status", "Rejected");
-            frm.save();
-          })
-          .css({
-            "background-color": "#F70D1A", // Set green color
-            color: "#ffffff", // Set font color to white
-          });
+        if (frm.doc.status !== "Rejected") {
+          // Code for reject button
+          frm
+            .add_custom_button(__("Reject"), function () {
+              console.log("status : ", frm.doc.status);
+              frm.set_value("employee_rating_fetched", "Not-Fetched");
+              frm.set_value("status", "Rejected");
+              frm.save();
+            })
+            .css({
+              "background-color": "#F70D1A", // Set green color
+              color: "#ffffff", // Set font color to white
+            });
 
-        frm
-          .add_custom_button(__("Submit"), function () {
-            //*<Appraiser Save doc after giving Section A & Section B Rating>
-            let session_emp_user = frappe.session.user;
-            //*<Appraiser Save doc after giving Section A & Section B Rating>
-            if (session_emp_user === frm.doc.appraiser_user_id) {
-              if (frm.doc.appraiser_rating_calculated == "no") {
-                let sec_a_message = "";
-                let sec_b_message = "";
-                let sec_a_empty = "true";
-                let sec_b_empty = "true";
+          frm
+            .add_custom_button(__("Submit"), function () {
+              //*<Appraiser Save doc after giving Section A & Section B Rating>
+              let session_emp_user = frappe.session.user;
+              //*<Appraiser Save doc after giving Section A & Section B Rating>
+              if (session_emp_user === frm.doc.appraiser_user_id) {
+                if (frm.doc.appraiser_rating_calculated == "no") {
+                  let sec_a_message = "";
+                  let sec_b_message = "";
+                  let sec_a_empty = "true";
+                  let sec_b_empty = "true";
 
-                for (let row of frm.doc.appraiser_kra_table) {
-                  if (row.appraisar_rating !== "") {
-                    sec_a_empty = "false";
-                  }
-
-                  if ((row.appraisar_rating == "") | null) {
-                    sec_a_message += "<br>- " + row.kras;
-                    sec_a_empty = "true";
-                  }
-                }
-
-                for (let row1 of frm.doc.employee_section_b_table) {
-                  if (row1.appraiser_rating !== "") {
-                    sec_b_empty = "false";
-                  }
-                  if ((row1.appraiser_rating == "") | null) {
-                    sec_b_message += "<br>- " + row1.employee_data;
-                    sec_b_empty = "true";
-                  }
-                }
-                var promotion = "false";
-                if (frm.doc.emp_promotion == "Yes") {
-                  promotion = "true";
-                  console.log(promotion);
-                } else if (frm.doc.emp_promotion == "No") {
-                  promotion = "true";
-                  console.log(promotion);
-                } else {
-                  console.log(promotion);
-                }
-                if (sec_a_empty == "true") {
-                  frappe.msgprint("Please Give Rating in:" + sec_a_message);
-                }
-                if (sec_b_empty == "true") {
-                  frappe.throw("Please Give Rating in:" + sec_b_message);
-                }
-
-                if (promotion == "false") {
-                  frappe.throw("Please Give Recommendation for Promotion !!");
-                } else if (sec_a_empty == "false" && sec_b_empty == "false") {
-                  frappe.confirm(
-                    "Just a friendly reminder: Once you rate, you won't be able to change it. Are you sure you want to proceed?",
-                    () => {
-                      // action to perform if Yes is selected
-                      frm.trigger("calculate_appraiser_rating");
-                      frm.trigger("btn_calculate_app_section_b");
-                      frm.trigger("btn_calculate_appraiser_overall_rating");
-                      frm.set_value("appraiser_rating_calculated", "yes");
-                      frm.set_value("status", "Submitted");
-                      frm.save();
-                      frappe.show_alert(
-                        "Your Rating has been Submitted for " +
-                          frm.doc.full_name
-                      );
-                    },
-                    () => {
-                      // action to perform if No is selected
-                      frm.set_df_property(
-                        "appraiser_kra_table",
-                        "read_only",
-                        0
-                      );
+                  for (let row of frm.doc.appraiser_kra_table) {
+                    if (row.appraisar_rating !== "") {
+                      sec_a_empty = "false";
                     }
+
+                    if ((row.appraisar_rating == "") | null) {
+                      sec_a_message += "<br>- " + row.kras;
+                      sec_a_empty = "true";
+                    }
+                  }
+
+                  for (let row1 of frm.doc.employee_section_b_table) {
+                    if (row1.appraiser_rating !== "") {
+                      sec_b_empty = "false";
+                    }
+                    if ((row1.appraiser_rating == "") | null) {
+                      sec_b_message += "<br>- " + row1.employee_data;
+                      sec_b_empty = "true";
+                    }
+                  }
+                  var promotion = "false";
+                  if (frm.doc.emp_promotion == "Yes") {
+                    promotion = "true";
+                    console.log(promotion);
+                  } else if (frm.doc.emp_promotion == "No") {
+                    promotion = "true";
+                    console.log(promotion);
+                  } else {
+                    console.log(promotion);
+                  }
+                  if (sec_a_empty == "true") {
+                    frappe.msgprint("Please Give Rating in:" + sec_a_message);
+                  }
+                  if (sec_b_empty == "true") {
+                    frappe.throw("Please Give Rating in:" + sec_b_message);
+                  }
+
+                  if (promotion == "false") {
+                    frappe.throw("Please Give Recommendation for Promotion !!");
+                  } else if (sec_a_empty == "false" && sec_b_empty == "false") {
+                    frappe.confirm(
+                      "Just a friendly reminder: Once you rate, you won't be able to change it. Are you sure you want to proceed?",
+                      () => {
+                        // action to perform if Yes is selected
+                        frm.trigger("calculate_appraiser_rating");
+                        frm.trigger("btn_calculate_app_section_b");
+                        frm.trigger("btn_calculate_appraiser_overall_rating");
+                        frm.set_value("appraiser_rating_calculated", "yes");
+                        frm.set_value("status", "Submitted");
+                        frm.save();
+                        frappe.show_alert(
+                          "Your Rating has been Submitted for " +
+                            frm.doc.full_name
+                        );
+                      },
+                      () => {
+                        // action to perform if No is selected
+                        frm.set_df_property(
+                          "appraiser_kra_table",
+                          "read_only",
+                          0
+                        );
+                      }
+                    );
+                  }
+                } else if (frm.doc.appraiser_rating_calculated == "yes") {
+                  frappe.show_alert(
+                    "Your Ratings are already saved for  " + frm.doc.full_name
                   );
                 }
-              } else if (frm.doc.appraiser_rating_calculated == "yes") {
-                frappe.show_alert(
-                  "Your Ratings are already saved for  " + frm.doc.full_name
-                );
-              }
-            } //*</Appraiser Save doc after giving Section A & Section B Rating>
-          })
-          .css({
-            "background-color": "#28a745", // Set green color
-            color: "#ffffff", // Set font color to white
-          });
-        frm
-          .add_custom_button(__("Save"), function () {
-            //*<Appraiser Save doc after giving Section A & Section B Rating>
-            let session_emp_user = frappe.session.user;
-            //*<Appraiser Save doc after giving Section A & Section B Rating>
-            if (session_emp_user === frm.doc.appraiser_user_id) {
-              if (frm.doc.appraiser_rating_calculated == "no") {
-                let sec_a_message = "";
-                let sec_b_message = "";
-                let sec_a_empty = "true";
-                let sec_b_empty = "true";
+              } //*</Appraiser Save doc after giving Section A & Section B Rating>
+            })
+            .css({
+              "background-color": "#28a745", // Set green color
+              color: "#ffffff", // Set font color to white
+            });
+          frm
+            .add_custom_button(__("Save"), function () {
+              //*<Appraiser Save doc after giving Section A & Section B Rating>
+              let session_emp_user = frappe.session.user;
+              //*<Appraiser Save doc after giving Section A & Section B Rating>
+              if (session_emp_user === frm.doc.appraiser_user_id) {
+                if (frm.doc.appraiser_rating_calculated == "no") {
+                  let sec_a_message = "";
+                  let sec_b_message = "";
+                  let sec_a_empty = "true";
+                  let sec_b_empty = "true";
 
-                for (let row of frm.doc.appraiser_kra_table) {
-                  if (row.appraisar_rating !== "") {
-                    sec_a_empty = "false";
-                  }
-
-                  if ((row.appraisar_rating == "") | null) {
-                    sec_a_message += "<br>- " + row.kras;
-                    sec_a_empty = "true";
-                  }
-                }
-
-                for (let row1 of frm.doc.employee_section_b_table) {
-                  if (row1.appraiser_rating !== "") {
-                    sec_b_empty = "false";
-                  }
-                  if ((row1.appraiser_rating == "") | null) {
-                    sec_b_message += "<br>- " + row1.employee_data;
-                    sec_b_empty = "true";
-                  }
-                }
-                var promotion = "false";
-                if (frm.doc.emp_promotion == "Yes") {
-                  promotion = "true";
-                  console.log(promotion);
-                } else if (frm.doc.emp_promotion == "No") {
-                  promotion = "true";
-                  console.log(promotion);
-                } else {
-                  console.log(promotion);
-                }
-                if (sec_a_empty == "true") {
-                  frappe.msgprint("Please Give Rating in:" + sec_a_message);
-                }
-                if (sec_b_empty == "true") {
-                  frappe.throw("Please Give Rating in:" + sec_b_message);
-                }
-
-                if (promotion == "false") {
-                  frappe.throw("Please Give Recommendation for Promotion !!");
-                } else if (sec_a_empty == "false" && sec_b_empty == "false") {
-                  frappe.confirm(
-                    "Are you sure you want to Save?",
-                    () => {
-                      // action to perform if Yes is selected
-                      frm.trigger("calculate_appraiser_rating");
-                      frm.trigger("btn_calculate_app_section_b");
-                      frm.trigger("btn_calculate_appraiser_overall_rating");
-                      frappe.show_alert(
-                        "Your Rating has been Saved for  " + frm.doc.full_name
-                      );
-                      frm.save();
-                    },
-                    () => {
-                      // action to perform if No is selected
-                      frm.set_df_property(
-                        "appraiser_kra_table",
-                        "read_only",
-                        0
-                      );
+                  for (let row of frm.doc.appraiser_kra_table) {
+                    if (row.appraisar_rating !== "") {
+                      sec_a_empty = "false";
                     }
+
+                    if ((row.appraisar_rating == "") | null) {
+                      sec_a_message += "<br>- " + row.kras;
+                      sec_a_empty = "true";
+                    }
+                  }
+
+                  for (let row1 of frm.doc.employee_section_b_table) {
+                    if (row1.appraiser_rating !== "") {
+                      sec_b_empty = "false";
+                    }
+                    if ((row1.appraiser_rating == "") | null) {
+                      sec_b_message += "<br>- " + row1.employee_data;
+                      sec_b_empty = "true";
+                    }
+                  }
+                  var promotion = "false";
+                  if (frm.doc.emp_promotion == "Yes") {
+                    promotion = "true";
+                    console.log(promotion);
+                  } else if (frm.doc.emp_promotion == "No") {
+                    promotion = "true";
+                    console.log(promotion);
+                  } else {
+                    console.log(promotion);
+                  }
+                  if (sec_a_empty == "true") {
+                    frappe.msgprint("Please Give Rating in:" + sec_a_message);
+                  }
+                  if (sec_b_empty == "true") {
+                    frappe.throw("Please Give Rating in:" + sec_b_message);
+                  }
+
+                  if (promotion == "false") {
+                    frappe.throw("Please Give Recommendation for Promotion !!");
+                  } else if (sec_a_empty == "false" && sec_b_empty == "false") {
+                    frappe.confirm(
+                      "Are you sure you want to Save?",
+                      () => {
+                        // action to perform if Yes is selected
+                        frm.trigger("calculate_appraiser_rating");
+                        frm.trigger("btn_calculate_app_section_b");
+                        frm.trigger("btn_calculate_appraiser_overall_rating");
+                        frappe.show_alert(
+                          "Your Rating has been Saved for  " + frm.doc.full_name
+                        );
+                        frm.save();
+                      },
+                      () => {
+                        // action to perform if No is selected
+                        frm.set_df_property(
+                          "appraiser_kra_table",
+                          "read_only",
+                          0
+                        );
+                      }
+                    );
+                  }
+                } else if (frm.doc.appraiser_rating_calculated == "yes") {
+                  frappe.show_alert(
+                    "Your Ratings are already saved for  " + frm.doc.full_name
                   );
                 }
-              } else if (frm.doc.appraiser_rating_calculated == "yes") {
-                frappe.show_alert(
-                  "Your Ratings are already saved for  " + frm.doc.full_name
-                );
-              }
-            } //*</Appraiser Save doc after giving Section A & Section B Rating>
-          })
-          .css({
-            "background-color": "#4285F4", // Set green color
-            color: "#ffffff", // Set font color to white
-          });
+              } //*</Appraiser Save doc after giving Section A & Section B Rating>
+            })
+            .css({
+              "background-color": "#4285F4", // Set green color
+              color: "#ffffff", // Set font color to white
+            });
+        }
       } else {
         frm.disable_save();
         // Code for "send to skip level" button
@@ -1176,38 +1183,63 @@ frappe.ui.form.on("Performance Appraisal", {
         frm.set_intro("This Form is Successfully send to SKIP Level", "green");
       }
       //*</Show Employee status to appraiser>
-    } else if (session_emp_user === frm.doc.skip_user) {
+    } else if (frappe.session.user === frm.doc.skip_user) {
       console.log("Skip Matched: ", session_emp_user);
+      if (
+        frm.doc.appraiser_rating_calculated == "no" &&
+        frm.doc.status == "Submitted"
+      ) {
+        // frm.set_intro(
+        //   "<div style='display: flex; align-items: center;'>" +
+        //     "<div style='border-radius: 50%; width: 20px; height: 20px; background-color: green; color: white; text-align: center; line-height: 20px;'>&#10003;</div>" +
+        //     "<div style='margin-left: 10px; color: green;'><b>Appraisee :</b> " +
+        //     frm.doc.full_name +
+        //     "</div>" +
+        //     "</div><br>" +
+        //     "<hr style='margin-top: 1px; margin-bottom:15px;'>" +
+        //     "<div style='display: flex; align-items: center;'>" +
+        //     "<div style='border-radius: 50%; width: 20px; height: 20px; background-color: red; color: white; text-align: center; line-height: 15px;'>!</div>" +
+        //     "<div style='margin-left: 10px; color: red;'><b>Appraiser :</b> " +
+        //     frm.doc.ap_name +
+        //     "</div>" +
+        //     "</div>",
+        //   "green" // You can set this to any default color you prefer
+        // );
+      }
+
       frm.disable_save();
       if (frm.doc.skip_sec_calculated == "yes") {
-      } else if (frm.doc.skip_sec_calculated == "no") {
+      } else if (
+        frm.doc.skip_sec_calculated == "no" &&
+        frm.doc.appraiser_rating_calculated == "yes"
+      ) {
+        frm
+          .add_custom_button(__("Save"), function () {
+            frm.trigger("btn_skip_section_a_rating");
+            frm.trigger("btn_skip_sec_b_rating");
+            frm.trigger("calculate_skip_rating");
+
+            frm.set_value("skip_sec_calculated", "no");
+            frm.save();
+          })
+          .css({
+            "background-color": "#00b4d8", // Set green color
+            color: "#ffffff", // Set font color to white
+          });
+        frm
+          .add_custom_button(__("Submit"), function () {
+            frm.trigger("btn_skip_section_a_rating");
+            frm.trigger("btn_skip_sec_b_rating");
+            frm.trigger("calculate_skip_rating");
+
+            frm.set_value("skip_sec_calculated", "yes");
+            frm.save();
+          })
+          .css({
+            "background-color": "#06d6a0", // Set green color
+            color: "#ffffff", // Set font color to white
+          });
       }
-      frm
-        .add_custom_button(__("Save"), function () {
-          frm.trigger("btn_skip_section_a_rating");
-          frm.trigger("btn_skip_sec_b_rating");
-          frm.trigger("calculate_skip_rating");
-
-          frm.set_value("skip_sec_calculated", "no");
-          frm.save();
-        })
-        .css({
-          "background-color": "#00b4d8", // Set green color
-          color: "#ffffff", // Set font color to white
-        });
-      frm
-        .add_custom_button(__("Submit"), function () {
-          frm.trigger("btn_skip_section_a_rating");
-          frm.trigger("btn_skip_sec_b_rating");
-          frm.trigger("calculate_skip_rating");
-
-          frm.set_value("skip_sec_calculated", "yes");
-          frm.save();
-        })
-        .css({
-          "background-color": "#06d6a0", // Set green color
-          color: "#ffffff", // Set font color to white
-        });
 
       //hide Appraisee Tab
       $("#performance-appraisal-tab_employee_tab-tab").css("display", "none");
@@ -1288,25 +1320,177 @@ frappe.ui.form.on("Performance Appraisal", {
   //   }
   // },
   //*-----------------------------------------------------------------------------------------------*//
-  school_description(frm) {
-    // Get the numeric part of the user string
-    let eid = user.match(/\d+/)[0];
+  appraisee_save(frm) {
+    frm.save();
+  },
+  appraisee_submit(frm) {
+    if (frm.is_new()) {
+      show_alert("Hi, Please save your form", 5);
+    } else if (!frm.is_new()) {
+      if (frm.doc.employee_rating_fetched == "Fetched") {
+        frappe.msgprint(
+          "Your Rating has been Already Sent to <b>" +
+            firstName +
+            "</b> <b>" +
+            lastName +
+            "</b> "
+        );
+      } else if (frm.doc.employee_rating_fetched == "Not-Fetched") {
+        frappe.confirm(
+          "Are you sure you want to submit your form to <b>" +
+            firstName +
+            "</b> <b>" +
+            lastName +
+            "</b> ?",
+          () => {
+            // action to perform if Yes is selected
+            frappe.show_alert("successfully sent to your Appraiser");
+            frm.trigger("calculate_section_a");
+            frm.trigger("calculate_section_b");
+            frm.trigger("cal_emp_tot_weight_ranking");
 
-    // Initialize the modified employee_id
-    let modifiedEmployeeId = "";
+            frm.trigger("send_to_appraiser");
 
-    // Check if the user string contains "ABPS" or "MCPS"
-    if (user.includes("ABPS")) {
-      modifiedEmployeeId = "ABPS" + eid;
-    } else if (user.includes("MCPS")) {
-      modifiedEmployeeId = "MCPS" + eid;
+            frm.save();
+          },
+          () => {
+            frappe.show_alert("Now You Can change Your Section A & Section B");
+          }
+        );
+      }
+    }
+  },
+  common_status(frm) {
+    console.log("common_status");
+    var appraiser_status = "";
+    var appraisee_status = "";
+    var skip_status = "";
+
+    // Determine skip status
+    if (
+      frm.doc.employee_status === "Not-Satisfied" &&
+      frm.doc.skip_confirmation_status === ""
+    ) {
+      skip_status = "Pending";
+    } else if (
+      frm.doc.skip_sec_calculated === "yes" &&
+      frm.doc.skip_confirmation_status === "SKIP Rating Required"
+    ) {
+      skip_status = "Submitted";
+    } else if (
+      frm.doc.skip_confirmation_status === "SKIP Rating Not-Required"
+    ) {
+      skip_status = "Appraiser-Final";
     } else {
-      // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
-      modifiedEmployeeId = eid;
+      skip_status = "Not-Received";
     }
 
-    // Set the "employee_id" field with the modified value
-    frm.set_value("employee_id", modifiedEmployeeId);
+    // Determine appraisee status
+    appraisee_status =
+      frm.doc.employee_rating_fetched === "Fetched" ? "Submitted" : "Pending";
+
+    // Determine appraiser status
+    if (frm.doc.appraiser_rating_calculated === "yes") {
+      appraiser_status = "Submitted";
+    } else if (
+      frm.doc.appraiser_rating_calculated === "no" &&
+      frm.doc.employee_rating_fetched === "Fetched"
+    ) {
+      appraiser_status = "Pending";
+    } else if (frm.doc.status === "Rejected") {
+      appraiser_status = "Changes-Required";
+    } else {
+      appraiser_status = "Not-Received";
+    }
+
+    // Determine colors
+    var statusColors = {
+      Submitted: "green",
+      "Not-Received": "blue",
+      "Changes-Required": "#FFA500",
+      Pending: "red",
+      "Appraiser-Final": "green",
+    };
+
+    var appraisee_status_color = statusColors[appraisee_status];
+    var appraiser_status_color = statusColors[appraiser_status];
+    var skip_status_color = statusColors[skip_status];
+
+    // Prepare names
+    var fullNameParts = frm.doc.full_name.split(" ");
+    var appraiserNameParts = frm.doc.ap_name.split(" ");
+    var skipReportingEmployeeNameParts = frm.doc.skip_reporting_employee_name
+      ? frm.doc.skip_reporting_employee_name.split(" ")
+      : ["Skip", "Not", "Available"];
+
+    var fullName =
+      fullNameParts[0] + " " + fullNameParts[fullNameParts.length - 1];
+    var appraiserName =
+      appraiserNameParts[0] +
+      " " +
+      appraiserNameParts[appraiserNameParts.length - 1];
+    var skipReportingEmployeeName =
+      skipReportingEmployeeNameParts[0] +
+      " " +
+      skipReportingEmployeeNameParts[skipReportingEmployeeNameParts.length - 1];
+
+    var html = `
+      <!-- Link Button -->
+      <div >
+        <a href="/app/pms" style="text-decoration: none; color: #2490ef; float:right;">Go to Home <img src="/files/home.png" style="width:13px;color:blue; margin-bottom:4px;"></a>
+      </div>
+        <div class="custom-intro-container" style="display: flex; align-items: center;">
+          <div class="custom-intro-box" style="border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: black; text-align: center; font-size: 0.8em; padding: 10px;">
+            <div class="status_heading"><strong>Appraisee</strong></div>
+            <div class="status_Name">${fullName}</div>
+            <div class="status_status" style="color: ${appraisee_status_color};">${appraisee_status}</div>
+          </div>
+          <div class="arrow-right" style="color: black; font-size: 1.5em;">&rArr;</div>
+          <div class="custom-intro-box" style="border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: black; text-align: center; font-size: 0.8em; padding: 10px;">
+            <div class="status_heading"><strong>Appraiser</strong></div>
+            <div class="status_Name">${appraiserName}</div>
+            <div class="status_status" style="color: ${appraiser_status_color};">${appraiser_status}</div>
+          </div>
+          
+          ${
+            frm.doc.employee_status == "Not-Satisfied"
+              ? `<div class="arrow-right" style="color: black; font-size: 1.5em;">&rArr;</div>
+          <div class="custom-intro-box" style="border-radius: 10px; display: flex; flex-direction: column; justify-content: center; align-items: center; color: black; text-align: center; font-size: 0.8em; padding: 10px;">
+            <div class="status_heading"><strong>Skip</strong></div>
+            <div class="status_Name">${skipReportingEmployeeName}</div>
+            <div class="status_status" style="color: ${skip_status_color};">${skip_status}</div>
+          </div>`
+              : ""
+          }
+        </div>
+        `;
+
+    // Set the HTML in set_intro with the color "green"
+    frm.set_intro(html, "green");
+  },
+
+  school_description(frm) {
+    if (frm.is_new()) {
+      // Get the numeric part of the user string
+      let eid = user.match(/\d+/)[0];
+
+      // Initialize the modified employee_id
+      let modifiedEmployeeId = "";
+
+      // Check if the user string contains "ABPS" or "MCPS"
+      if (user.includes("ABPS")) {
+        modifiedEmployeeId = "ABPS" + eid;
+      } else if (user.includes("MCPS")) {
+        modifiedEmployeeId = "MCPS" + eid;
+      } else {
+        // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
+        modifiedEmployeeId = eid;
+      }
+
+      // Set the "employee_id" field with the modified value
+      frm.set_value("employee_id", modifiedEmployeeId);
+    }
+
     let empid = frm.doc.employee_id;
 
     frappe.db
@@ -1414,6 +1598,27 @@ frappe.ui.form.on("Performance Appraisal", {
     // Get the element with the specified class name
   },
   buttons_colors(frm) {
+    frm.fields_dict.appraisee_save.$input.css({
+      "background-color": "black",
+      color: "white",
+      width: "100%",
+      position: "relative",
+      padding: "10px",
+      border: "none",
+      cursor: "pointer",
+      "margin-top": "138px", // Use dash instead of camel case for margin-top
+    });
+    frm.fields_dict.appraisee_submit.$input.css({
+      "background-color": "black",
+      color: "white",
+      width: "100%",
+      position: "relative",
+      padding: "10px",
+      border: "none",
+      cursor: "pointer",
+      "margin-top": "138px", // Use dash instead of camel case for margin-top
+    });
+
     frm.fields_dict.calculate_section_a.$input.css({
       "background-color": "black", // Set the background color to black
       color: "white", // Set the text color to white
@@ -1727,10 +1932,13 @@ frappe.ui.form.on("Performance Appraisal", {
     let session_emp_user = frappe.session.user;
     if (session_emp_user === frm.doc.user_id) {
       frm.clear_table("employee_section_b_table");
+      //Technical Section
       if (
         frm.doc.appraisal_category == 1 ||
         frm.doc.appraisal_category == 2 ||
-        frm.doc.appraisal_category == 3
+        frm.doc.appraisal_category == "S1" ||
+        frm.doc.appraisal_category == "S2" ||
+        frm.doc.appraisal_category == "S3"
       ) {
         if ((frm.doc.technical_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Technical & Functional knowledge");
@@ -1738,9 +1946,11 @@ frappe.ui.form.on("Performance Appraisal", {
           let row1 = frm.add_child("employee_section_b_table", {
             employee_data: "Technical & Functional knowledge",
             employee_rating: frm.doc.technical_emp_rating,
+            appraisee_comment: frm.doc.technical_emp_comments,
           });
         }
       }
+      //Thoughts Leadership holistic and strategic prespective
       if (frm.doc.appraisal_category == 1) {
         if ((frm.doc.thought_emp_rating == "") | null) {
           frappe.msgprint(
@@ -1751,10 +1961,11 @@ frappe.ui.form.on("Performance Appraisal", {
             employee_data:
               "Thought leadership-holistic and strategic perspective",
             employee_rating: frm.doc.thought_emp_rating,
+            appraisee_comment: frm.doc.employee_comments,
           });
         }
       }
-
+      // People Development
       if (frm.doc.appraisal_category == 1) {
         if ((frm.doc.people_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - People Development");
@@ -1762,10 +1973,15 @@ frappe.ui.form.on("Performance Appraisal", {
           let row3 = frm.add_child("employee_section_b_table", {
             employee_data: "People Development",
             employee_rating: frm.doc.people_emp_rating,
+            appraisee_comment: frm.doc.people_emp_comments,
           });
         }
       }
-      if (frm.doc.appraisal_category == 1) {
+      //Managing relationships
+      if (
+        frm.doc.appraisal_category == 1 ||
+        frm.doc.appraisal_category == "S1"
+      ) {
         if ((frm.doc.managing_emp_rating == "") | null) {
           frappe.msgprint(
             "Please Rate - Managing relationships – collaboration"
@@ -1774,71 +1990,106 @@ frappe.ui.form.on("Performance Appraisal", {
           let row4 = frm.add_child("employee_section_b_table", {
             employee_data: "Managing relationships – collaboration",
             employee_rating: frm.doc.managing_emp_rating,
+            appraisee_comment: frm.doc.managing_emp_comments,
           });
         }
       }
-      if (frm.doc.appraisal_category == 1 || frm.doc.appraisal_category == 3) {
+      //Decision making & problem solving
+      if (
+        frm.doc.appraisal_category == 1 ||
+        frm.doc.appraisal_category == "S1" ||
+        frm.doc.appraisal_category == "S2"
+      ) {
         if ((frm.doc.decision_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Decision making & problem solving");
         } else if ((frm.doc.decision_emp_rating !== "") | null) {
           let row5 = frm.add_child("employee_section_b_table", {
             employee_data: "Decision making & problem solving",
             employee_rating: frm.doc.decision_emp_rating,
+            appraisee_comment: frm.doc.decision_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 1) {
+      //Planning
+      if (
+        frm.doc.appraisal_category == 1 ||
+        frm.doc.appraisal_category == "S1"
+      ) {
         if ((frm.doc.planning_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Planning");
         } else if ((frm.doc.planning_emp_rating !== "") | null) {
           let row6 = frm.add_child("employee_section_b_table", {
             employee_data: "Planning",
             employee_rating: frm.doc.planning_emp_rating,
+            appraisee_comment: frm.doc.planning_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 1) {
+      //Leadership Presence
+      if (
+        frm.doc.appraisal_category == 1 ||
+        frm.doc.appraisal_category == "S1"
+      ) {
         if ((frm.doc.leadership_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Leadership Presence");
         } else if ((frm.doc.leadership_emp_rating !== "") | null) {
           let row7 = frm.add_child("employee_section_b_table", {
             employee_data: "Leadership Presence",
             employee_rating: frm.doc.leadership_emp_rating,
+            appraisee_comment: frm.doc.leadership_emp_comments,
           });
         }
       }
-      if (frm.doc.appraisal_category == 1) {
+
+      //Humility to learn
+      if (
+        frm.doc.appraisal_category == 1 ||
+        frm.doc.appraisal_category == "S1" ||
+        frm.doc.appraisal_category == "S2"
+      ) {
         if ((frm.doc.humility_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Humility to learn");
         } else if ((frm.doc.humility_emp_rating !== "") | null) {
           let row8 = frm.add_child("employee_section_b_table", {
             employee_data: "Humility to learn",
             employee_rating: frm.doc.humility_emp_rating,
+            appraisee_comment: frm.doc.humility_emp_comments,
           });
         }
       }
-      if (frm.doc.appraisal_category == 2) {
+
+      // Strategic Thinking
+      if (frm.doc.appraisal_category == "S1") {
         if ((frm.doc.strategic_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Strategic Thinking");
         } else if ((frm.doc.strategic_emp_rating !== "") | null) {
           let row9 = frm.add_child("employee_section_b_table", {
             employee_data: "Strategic Thinking",
             employee_rating: frm.doc.strategic_emp_rating,
+            appraisee_comment: frm.doc.strategic_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 2) {
-        if ((frm.doc.result_orientation_emp_rating == "") | null) {
-          frappe.msgprint("Please Rate - Result Orientation");
-        }
-        if ((frm.doc.result_orientation_emp_rating !== "") | null) {
-          let row10 = frm.add_child("employee_section_b_table", {
-            employee_data: "Result Orientation",
-            employee_rating: frm.doc.result_orientation_emp_rating,
-          });
-        }
-      }
-      if (frm.doc.appraisal_category == 2) {
+
+      //Result Orientation
+      // if (frm.doc.appraisal_category == 2) {
+      //   if ((frm.doc.result_orientation_emp_rating == "") | null) {
+      //     frappe.msgprint("Please Rate - Result Orientation");
+      //   }
+      //   if ((frm.doc.result_orientation_emp_rating !== "") | null) {
+      //     let row10 = frm.add_child("employee_section_b_table", {
+      //       employee_data: "Result Orientation",
+      //       employee_rating: frm.doc.result_orientation_emp_rating,
+      //     });
+      //   }
+      // }
+
+      //Personal & Interpersonal Effectiveness
+      if (
+        frm.doc.appraisal_category == 2 ||
+        frm.doc.appraisal_category == "S2" ||
+        frm.doc.appraisal_category == "S3"
+      ) {
         if ((frm.doc.personal_and_interpersonal_emp_rating == "") | null) {
           frappe.msgprint(
             "Please Rate - Personal & Interpersonal Effectiveness"
@@ -1850,46 +2101,68 @@ frappe.ui.form.on("Performance Appraisal", {
           let row11 = frm.add_child("employee_section_b_table", {
             employee_data: "Personal & Interpersonal Effectiveness",
             employee_rating: frm.doc.personal_and_interpersonal_emp_rating,
+            appraisee_comment: frm.doc.personal_interpersoanl_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 2) {
+
+      //People Management
+      if (frm.doc.appraisal_category == "S1") {
         if ((frm.doc.people_mngmnt_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - People Management");
         } else if ((frm.doc.people_mngmnt_emp_rating !== "") | null) {
           let row12 = frm.add_child("employee_section_b_table", {
             employee_data: "People Management",
             employee_rating: frm.doc.people_mngmnt_emp_rating,
+            appraisee_comment: frm.doc.people_mngmnt_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 3) {
+      //Team Work
+      if (
+        frm.doc.appraisal_category == 2 ||
+        frm.doc.appraisal_category == "S3"
+      ) {
         if ((frm.doc.team_work_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Team Work");
         } else if ((frm.doc.team_work_emp_rating !== "") | null) {
           let row13 = frm.add_child("employee_section_b_table", {
             employee_data: "Team Work",
             employee_rating: frm.doc.team_work_emp_rating,
+            appraisee_comment: frm.doc.team_work_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 3) {
+
+      //Initiative
+      if (
+        frm.doc.appraisal_category == 2 ||
+        frm.doc.appraisal_category == "S2" ||
+        frm.doc.appraisal_category == "S3"
+      ) {
         if ((frm.doc.initiative_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Initiative");
         } else if ((frm.doc.initiative_emp_rating !== "") | null) {
           let row14 = frm.add_child("employee_section_b_table", {
             employee_data: "Initiative",
             employee_rating: frm.doc.initiative_emp_rating,
+            appraisee_comment: frm.doc.initiative_emp_comment,
           });
         }
       }
-      if (frm.doc.appraisal_category == 3) {
+      //Communication
+      if (
+        frm.doc.appraisal_category == 2 ||
+        frm.doc.appraisal_category == "S2" ||
+        frm.doc.appraisal_category == "S3"
+      ) {
         if ((frm.doc.communication_emp_rating == "") | null) {
           frappe.msgprint("Please Rate - Communication");
         } else if ((frm.doc.communication_emp_rating !== "") | null) {
           let row15 = frm.add_child("employee_section_b_table", {
             employee_data: "Communication",
             employee_rating: frm.doc.communication_emp_rating,
+            appraisee_comment: frm.doc.communication_emp_comment,
           });
         }
       }
@@ -2088,6 +2361,7 @@ frappe.ui.form.on("Performance Appraisal", {
             let row1 = frm.add_child("appraiser_kra_table", {
               kras: row.kras,
               //weights: row.weights,
+              appraisee_comment: row.comm,
               rating: row.rating,
             });
             frm.refresh_field("appraiser_kra_table");
@@ -2127,14 +2401,13 @@ frappe.ui.form.on("Performance Appraisal", {
   //*<Activate SKIP LEVEL if employee not satisfied with manager rating>
   activate_skip: function (frm) {
     let d = new frappe.ui.Dialog({
-      title:
-        "Your satisfaction is important to us. Request a SKIP level rating if you're not happy.",
+      title: "Request for SKIP level",
       fields: [
         {
           label: "Please explain, why are you not satisfied?",
           fieldname: "emp_reason",
           reqd: 1,
-          fieldtype: "Text Editor",
+          fieldtype: "Text",
         },
       ],
       primary_action_label: "Submit",

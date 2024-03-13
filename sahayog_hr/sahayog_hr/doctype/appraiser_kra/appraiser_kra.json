@@ -7,8 +7,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "appraisee_column",
+  "appraisee",
   "kras",
   "rating",
+  "appraisee_comment",
+  "appraiser_column",
+  "appraiser",
   "appraisar_rating",
   "comm"
  ],
@@ -52,12 +57,36 @@
    "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
    "print_width": "80px",
    "width": "80px"
+  },
+  {
+   "fieldname": "appraisee_comment",
+   "fieldtype": "Text",
+   "label": "Appraisee Comment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "appraisee_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "appraiser_column",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "appraisee",
+   "fieldtype": "Heading",
+   "label": "Appraisee"
+  },
+  {
+   "fieldname": "appraiser",
+   "fieldtype": "Heading",
+   "label": "Appraiser"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-09 10:38:34.169795",
+ "modified": "2024-03-12 14:08:37.459883",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Appraiser KRA",

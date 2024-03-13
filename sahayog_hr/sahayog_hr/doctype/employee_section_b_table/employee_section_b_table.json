@@ -7,8 +7,13 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "column_break_09yxd",
+  "appraisee",
   "employee_data",
   "employee_rating",
+  "appraisee_comment",
+  "column_break_2waeu",
+  "appraiser",
   "appraiser_rating",
   "appraiser_comment"
  ],
@@ -42,12 +47,36 @@
    "fieldtype": "Text",
    "in_list_view": 1,
    "label": "Appraiser Comment"
+  },
+  {
+   "fieldname": "column_break_09yxd",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "appraisee",
+   "fieldtype": "Heading",
+   "label": "Appraisee"
+  },
+  {
+   "fieldname": "column_break_2waeu",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "appraiser",
+   "fieldtype": "Heading",
+   "label": "Appraiser"
+  },
+  {
+   "fieldname": "appraisee_comment",
+   "fieldtype": "Text",
+   "label": "Appraisee Comment",
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-03-09 12:18:31.820551",
+ "modified": "2024-03-12 14:16:25.197991",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Employee Section B Table",

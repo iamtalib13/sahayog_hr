@@ -16,6 +16,7 @@ sahayog_hr/config/__init__.py
 sahayog_hr/config/desktop.py
 sahayog_hr/config/docs.py
 sahayog_hr/sahayog_hr/__init__.py
+sahayog_hr/sahayog_hr/dashboard_chart/employees_by_division/employees_by_division.json
 sahayog_hr/sahayog_hr/doctype/__init__.py
 sahayog_hr/sahayog_hr/doctype/appraiser_kra/__init__.py
 sahayog_hr/sahayog_hr/doctype/appraiser_kra/appraiser_kra.json
@@ -27,6 +28,7 @@ sahayog_hr/sahayog_hr/doctype/employee_section_b_table/__init__.py
 sahayog_hr/sahayog_hr/doctype/employee_section_b_table/employee_section_b_table.json
 sahayog_hr/sahayog_hr/doctype/employee_section_b_table/employee_section_b_table.py
 sahayog_hr/sahayog_hr/doctype/performance_appraisal/__init__.py
+sahayog_hr/sahayog_hr/doctype/performance_appraisal/employee_api.py
 sahayog_hr/sahayog_hr/doctype/performance_appraisal/performance_appraisal.js
 sahayog_hr/sahayog_hr/doctype/performance_appraisal/performance_appraisal.json
 sahayog_hr/sahayog_hr/doctype/performance_appraisal/performance_appraisal.py
@@ -45,7 +47,20 @@ sahayog_hr/sahayog_hr/page/__init__.py
 sahayog_hr/sahayog_hr/page/appraisal_list/__init__.py
 sahayog_hr/sahayog_hr/page/appraisal_list/appraisal_list.js
 sahayog_hr/sahayog_hr/page/appraisal_list/appraisal_list.json
-sahayog_hr/sahayog_hr/workspace/sahayog_appraisal/sahayog_appraisal.json
+sahayog_hr/sahayog_hr/report/__init__.py
+sahayog_hr/sahayog_hr/report/pms_report/__init__.py
+sahayog_hr/sahayog_hr/report/pms_report/pms_report.js
+sahayog_hr/sahayog_hr/report/pms_report/pms_report.json
+sahayog_hr/sahayog_hr/report/pms_report/pms_report.py
+sahayog_hr/sahayog_hr/workspace/appraisal_form/appraisal_form.json
+sahayog_hr/sahayog_survey/__init__.py
+sahayog_hr/sahayog_survey/doctype/__init__.py
+sahayog_hr/sahayog_survey/doctype/sahayog_survey/__init__.py
+sahayog_hr/sahayog_survey/doctype/sahayog_survey/sahayog_survey.js
+sahayog_hr/sahayog_survey/doctype/sahayog_survey/sahayog_survey.json
+sahayog_hr/sahayog_survey/doctype/sahayog_survey/sahayog_survey.py
+sahayog_hr/sahayog_survey/doctype/sahayog_survey/test_sahayog_survey.py
+sahayog_hr/survey/__init__.py
 sahayog_hr/templates/__init__.py
 sahayog_hr/templates/pages/__init__.py
 sahayog_hr/www/__init__.py
