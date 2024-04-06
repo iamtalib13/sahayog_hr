@@ -13,13 +13,13 @@
    "fieldname": "employee_rating",
    "fieldtype": "Select",
    "label": "Employee Rating",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor"
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement"
   }
  ],
  "index_web_pages_for_search": 1,
  "istable": 1,
  "links": [],
- "modified": "2023-02-08 17:50:07.517245",
+ "modified": "2024-03-14 20:16:51.666102",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Technical and Functional Knowledge",

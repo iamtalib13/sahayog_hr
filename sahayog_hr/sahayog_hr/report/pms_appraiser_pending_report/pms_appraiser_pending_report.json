@@ -1,0 +1,74 @@
+{
+ "add_total_row": 0,
+ "columns": [
+  {
+   "fieldname": "name",
+   "fieldtype": "Link",
+   "label": "PMS ID",
+   "options": "Performance Appraisal",
+   "width": 0
+  },
+  {
+   "fieldname": "employee_id",
+   "fieldtype": "Data",
+   "label": "Appraisee ID",
+   "width": 0
+  },
+  {
+   "fieldname": "full_name",
+   "fieldtype": "Data",
+   "label": "Appraisee",
+   "width": 0
+  },
+  {
+   "fieldname": "branch",
+   "fieldtype": "Data",
+   "label": "Branch",
+   "width": 0
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "label": "Region",
+   "width": 0
+  },
+  {
+   "fieldname": "division",
+   "fieldtype": "Data",
+   "label": "Division",
+   "width": 0
+  },
+  {
+   "fieldname": "department",
+   "fieldtype": "Data",
+   "label": "Department",
+   "width": 0
+  },
+  {
+   "fieldname": "ap_name",
+   "fieldtype": "Data",
+   "label": "Appraiser",
+   "width": 0
+  }
+ ],
+ "creation": "2024-03-22 12:13:07.713155",
+ "disable_prepared_report": 0,
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "filters": [],
+ "idx": 0,
+ "is_standard": "Yes",
+ "letter_head": "Sahayog",
+ "modified": "2024-03-22 12:24:30.358183",
+ "modified_by": "Administrator",
+ "module": "Sahayog Hr",
+ "name": "PMS Appraiser Pending Report",
+ "owner": "Administrator",
+ "prepared_report": 0,
+ "query": "select name,employee_id,full_name,branch,region,division,department,ap_name from `tabPerformance Appraisal`\nwhere appraiser_rating_calculated='no';",
+ "ref_doctype": "Performance Appraisal",
+ "report_name": "PMS Appraiser Pending Report",
+ "report_type": "Query Report",
+ "roles": []
+}

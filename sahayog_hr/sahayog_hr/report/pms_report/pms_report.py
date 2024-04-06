@@ -28,7 +28,7 @@ def execute(filters=None):
             "Skip Rating": d.emp_skip_rank,
             "Final Rating": "",
             "Promotion Recommendation (Yes/No)": d.emp_promotion,
-            "Justification for Promotion": ""
+            "Justification for Promotion": d.sec_c_app_final_feedback  # Include the new field here
         }
         data.append(row)
 
@@ -136,7 +136,8 @@ def get_performance_appraisal_data(filters):
             emp_ranking,
             emp_app_rank,
             emp_skip_rank,
-            emp_promotion
+            emp_promotion,
+            sec_c_app_final_feedback
         FROM
             `tabPerformance Appraisal`
     """

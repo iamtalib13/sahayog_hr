@@ -253,8 +253,8 @@ frappe.ui.form.on("Performance Appraisal", {
           const outstanding = 1;
           const exceeds_expectations = 2;
           const meets_expectations = 3;
-          const needs_improvement = 4;
-          const poor = 5;
+          const acceptable = 4;
+          const needs_improvement = 5;
           let app_sum_of_rating = 0;
           let app_total_weight = 50;
 
@@ -269,11 +269,11 @@ frappe.ui.form.on("Performance Appraisal", {
             if (row1.appraisar_rating == "Meets Expectations") {
               app_sum_of_rating = app_sum_of_rating + meets_expectations;
             }
+            if (row1.appraisar_rating == "Acceptable") {
+              app_sum_of_rating = app_sum_of_rating + acceptable;
+            }
             if (row1.appraisar_rating == "Needs Improvement") {
               app_sum_of_rating = app_sum_of_rating + needs_improvement;
-            }
-            if (row1.appraisar_rating == "Poor") {
-              app_sum_of_rating = app_sum_of_rating + poor;
             }
           }
           app_overall_rating =
@@ -476,6 +476,25 @@ frappe.ui.form.on("Performance Appraisal", {
 
       //when form NEW
     } else if (!frm.is_new()) {
+      if (frappe.user.has_role("System Manager")) {
+        console.log("Admin check");
+        frm.enable_save();
+
+        //correct Reporting
+        frm.add_custom_button(
+          __("Correct Reporting"),
+          function () {
+            //perform desired action such as routing to new form or fetching etc.
+            var emp_id = frm.doc.employee_id;
+            console.log(emp_id);
+            frm.set_value("employee_id", null);
+            frm.set_value("employee_id", emp_id);
+            frm.save();
+          },
+          __("Admin")
+        );
+      }
+
       //when form NOT NEW
     }
 
@@ -860,8 +879,15 @@ frappe.ui.form.on("Performance Appraisal", {
           frm
             .add_custom_button(__("Reject"), function () {
               console.log("status : ", frm.doc.status);
+
+              frm.set_value("appraiser_overall_rating", null);
+              frm.set_value("app_sec_b_app_rating", null);
+              frm.set_value("end_app_rating", null);
+              frm.set_value("emp_app_rank", null);
+              frm.set_value("emp_app_status", null);
               frm.set_value("employee_rating_fetched", "Not-Fetched");
               frm.set_value("status", "Rejected");
+
               frm.save();
             })
             .css({
@@ -1284,6 +1310,20 @@ frappe.ui.form.on("Performance Appraisal", {
         .find(".grid-add-row, .grid-remove-all-rows, .grid-remove-rows")
         .hide();
     } else {
+      if (!frm.is_new()) {
+        if (!frappe.user.has_role("System Manager")) {
+          console.log("not allowed");
+          frappe.set_route("/app/");
+          frappe.show_alert(
+            {
+              message: __("You are not allowed to see this employee's PMS"),
+              indicator: "red",
+            },
+            5
+          );
+        }
+      }
+
       // Trigger another function if conditions are not met
       frm.trigger("employeeDetailsCss");
     }
@@ -1555,7 +1595,7 @@ frappe.ui.form.on("Performance Appraisal", {
           document.querySelector(
             "#section_personal_interpersonal_effectiveness"
           ).innerText =
-            "Exhibits a willingness and ability to grow professionally and helps others grow as well. Teacher collaborates and works with colleagues, students, parents and communities to develop and sustain a positive school climate that supports students’ learning.";
+            "Exhibits a willingness and ability to grow professionally and helps others grow as well. Teacher collaborates and works with colleagues, students, parents and communities to develop and sustain a positive school climate that supports students learning.";
 
           //decision_title section
           document.querySelector("#section_decision_title").innerText =
@@ -1583,7 +1623,7 @@ frappe.ui.form.on("Performance Appraisal", {
           document.querySelector(
             "#section_personal_interpersonal_effectiveness"
           ).innerText =
-            "Exhibits a willingness and ability to grow professionally and helps others grow as well. Collaborates and works with Teaching and non teaching staff, colleagues, students and communities to develop and sustain a positive school climate that supports students’ learning.  ";
+            "Exhibits a willingness and ability to grow professionally and helps others grow as well. Collaborates and works with Teaching and non teaching staff, colleagues, students and communities to develop and sustain a positive school climate that supports students learning.  ";
 
           //section_team_section section
           document.querySelector("#section_team_section").innerText =
@@ -1869,8 +1909,8 @@ frappe.ui.form.on("Performance Appraisal", {
             const outstanding = 1;
             const exceeds_expectations = 2;
             const meets_expectations = 3;
-            const needs_improvement = 4;
-            const poor = 5;
+            const acceptable = 4;
+            const needs_improvement = 5;
             let sum_of_rating = 0;
             let total_weight = 0;
             let total_rating = 0;
@@ -1888,14 +1928,16 @@ frappe.ui.form.on("Performance Appraisal", {
               if (row.rating == "Meets Expectations") {
                 sum_of_rating = sum_of_rating + meets_expectations;
               }
+              if (row.rating == "Acceptable") {
+                sum_of_rating = sum_of_rating + acceptable;
+              }
               if (row.rating == "Needs Improvement") {
                 sum_of_rating = sum_of_rating + needs_improvement;
               }
-              if (row.rating == "Poor") {
-                sum_of_rating = sum_of_rating + poor;
-              }
-            }
 
+              console.log("Selected Rating", row.rating);
+            }
+            //savingg
             if (total_weight !== 50) {
               //console.log("checking weightage");
               frappe.msgprint(__("Please ensure that the weights total to 50"));
@@ -1984,11 +2026,11 @@ frappe.ui.form.on("Performance Appraisal", {
       ) {
         if ((frm.doc.managing_emp_rating == "") | null) {
           frappe.msgprint(
-            "Please Rate - Managing relationships – collaboration"
+            "Please Rate - Managing relationships  collaboration"
           );
         } else if ((frm.doc.managing_emp_rating !== "") | null) {
           let row4 = frm.add_child("employee_section_b_table", {
-            employee_data: "Managing relationships – collaboration",
+            employee_data: "Managing relationships  collaboration",
             employee_rating: frm.doc.managing_emp_rating,
             appraisee_comment: frm.doc.managing_emp_comments,
           });
@@ -2172,8 +2214,8 @@ frappe.ui.form.on("Performance Appraisal", {
       const outstanding = 1;
       const exceeds_expectations = 2;
       const meets_expectations = 3;
-      const needs_improvement = 4;
-      const poor = 5;
+      const acceptable = 4;
+      const needs_improvement = 5;
       let section_b_sum_of_rating = 0;
       let no_of_attributes = 0;
       let section_b_overall_rating = 0.0;
@@ -2191,11 +2233,11 @@ frappe.ui.form.on("Performance Appraisal", {
           section_b_sum_of_rating =
             section_b_sum_of_rating + meets_expectations;
         }
+        if (row1.employee_rating == "Acceptable") {
+          section_b_sum_of_rating = section_b_sum_of_rating + acceptable;
+        }
         if (row1.employee_rating == "Needs Improvement") {
           section_b_sum_of_rating = section_b_sum_of_rating + needs_improvement;
-        }
-        if (row1.employee_rating == "Poor") {
-          section_b_sum_of_rating = section_b_sum_of_rating + poor;
         }
       }
 
@@ -2265,13 +2307,13 @@ frappe.ui.form.on("Performance Appraisal", {
             emp_tot_weights_ranking >= 3.6 &&
             emp_tot_weights_ranking <= 4.59
           ) {
-            status = "Need Improvement";
+            status = "Acceptable";
             rank = "4";
           } else if (
             emp_tot_weights_ranking >= 4.6 &&
             emp_tot_weights_ranking <= 5.0
           ) {
-            status = "Poor";
+            status = "Need Improvement";
             rank = "5";
           }
 
@@ -2314,8 +2356,8 @@ frappe.ui.form.on("Performance Appraisal", {
         const outstanding = 1;
         const exceeds_expectations = 2;
         const meets_expectations = 3;
-        const needs_improvement = 4;
-        const poor = 5;
+        const acceptable = 4;
+        const needs_improvement = 5;
         let sum_of_rating = 0;
         let total_weight = 0;
         let total_rating = 0;
@@ -2333,11 +2375,11 @@ frappe.ui.form.on("Performance Appraisal", {
           if (row.rating == "Meets Expectations") {
             sum_of_rating = sum_of_rating + meets_expectations;
           }
+          if (row.rating == "Acceptable") {
+            sum_of_rating = sum_of_rating + acceptable;
+          }
           if (row.rating == "Needs Improvement") {
             sum_of_rating = sum_of_rating + needs_improvement;
-          }
-          if (row.rating == "Poor") {
-            sum_of_rating = sum_of_rating + poor;
           }
         }
 
@@ -2475,8 +2517,8 @@ frappe.ui.form.on("Performance Appraisal", {
         const outstanding = 1;
         const exceeds_expectations = 2;
         const meets_expectations = 3;
-        const needs_improvement = 4;
-        const poor = 5;
+        const acceptable = 4;
+        const needs_improvement = 5;
         let section_b_sum_of_rating = 0;
         let section_b_no_of_attributes = 0;
         let section_b_overall_rating = 0.0;
@@ -2495,12 +2537,12 @@ frappe.ui.form.on("Performance Appraisal", {
             section_b_sum_of_rating =
               section_b_sum_of_rating + meets_expectations;
           }
+          if (row1.appraiser_rating == "Acceptable") {
+            section_b_sum_of_rating = section_b_sum_of_rating + acceptable;
+          }
           if (row1.appraiser_rating == "Needs Improvement") {
             section_b_sum_of_rating =
               section_b_sum_of_rating + needs_improvement;
-          }
-          if (row1.appraiser_rating == "Poor") {
-            section_b_sum_of_rating = section_b_sum_of_rating + poor;
           }
         }
         console.log(section_b_sum_of_rating);
@@ -2595,10 +2637,10 @@ frappe.ui.form.on("Performance Appraisal", {
           status = "Meets Expectations";
           rank = "3";
         } else if (average >= 3.6 && average <= 4.59) {
-          status = "Need Improvement";
+          status = "Acceptable";
           rank = "4";
         } else if (average >= 4.6 && average <= 5.0) {
-          status = "Poor";
+          status = "Need Improvement";
           rank = "5";
         }
 
@@ -2639,8 +2681,8 @@ frappe.ui.form.on("Performance Appraisal", {
           const outstanding = 1;
           const exceeds_expectations = 2;
           const meets_expectations = 3;
-          const needs_improvement = 4;
-          const poor = 5;
+          const acceptable = 4;
+          const needs_improvement = 5;
           let sum_of_rating = 0;
           let total_weight = 50;
           let total_rating = 0;
@@ -2656,11 +2698,11 @@ frappe.ui.form.on("Performance Appraisal", {
             if (row.skip_rating == "Meets Expectations") {
               sum_of_rating = sum_of_rating + meets_expectations;
             }
+            if (row.skip_rating == "Acceptable") {
+              sum_of_rating = sum_of_rating + acceptable;
+            }
             if (row.skip_rating == "Needs Improvement") {
               sum_of_rating = sum_of_rating + needs_improvement;
-            }
-            if (row.skip_rating == "Poor") {
-              sum_of_rating = sum_of_rating + poor;
             }
           }
 
@@ -2700,8 +2742,8 @@ frappe.ui.form.on("Performance Appraisal", {
         const outstanding = 1;
         const exceeds_expectations = 2;
         const meets_expectations = 3;
-        const needs_improvement = 4;
-        const poor = 5;
+        const acceptable = 4;
+        const needs_improvement = 5;
         let skip_section_b_sum_of_rating = 0;
         let skip_section_b_no_of_attributes = 0;
         let skip_section_b_overall_rating = 0.0;
@@ -2721,12 +2763,13 @@ frappe.ui.form.on("Performance Appraisal", {
             skip_section_b_sum_of_rating =
               skip_section_b_sum_of_rating + meets_expectations;
           }
+          if (row1.skip_rating == "Acceptable") {
+            skip_section_b_sum_of_rating =
+              skip_section_b_sum_of_rating + acceptable;
+          }
           if (row1.skip_rating == "Needs Improvement") {
             skip_section_b_sum_of_rating =
               skip_section_b_sum_of_rating + needs_improvement;
-          }
-          if (row1.skip_rating == "Poor") {
-            skip_section_b_sum_of_rating = skip_section_b_sum_of_rating + poor;
           }
         }
         console.log(skip_section_b_sum_of_rating);
@@ -2776,10 +2819,10 @@ frappe.ui.form.on("Performance Appraisal", {
         status = "Meets Expectations";
         rank = "3";
       } else if (skip_average >= 3.6 && skip_average <= 4.59) {
-        status = "Need Improvement";
+        status = "Acceptable";
         rank = "4";
       } else if (skip_average >= 4.6 && skip_average <= 5.0) {
-        status = "Poor";
+        status = "Need Improvement";
         rank = "5";
       }
       frm.set_value("emp_skip_rank", rank);

@@ -254,8 +254,7 @@
    "fieldname": "employee_id",
    "fieldtype": "Link",
    "label": "Employee ID",
-   "options": "Employee",
-   "read_only": 1
+   "options": "Employee"
   },
   {
    "fetch_from": "employee_id.employee_name",
@@ -359,7 +358,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"2\" || doc.appraisal_category == \"S1\" || doc.appraisal_category == \"S2\" || doc.appraisal_category == \"S3\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -381,7 +380,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -409,7 +408,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"S1\" || doc.appraisal_category == \"S2\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -421,7 +420,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"S1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -450,7 +449,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\" || doc.appraisal_category == \"S1\" || doc.appraisal_category == \"S2\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -477,7 +476,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\"|| doc.appraisal_category == \"S1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -490,7 +489,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\"|| doc.appraisal_category == \"S1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -530,7 +529,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"S1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -552,7 +551,7 @@
    "fieldname": "result_orientation_emp_rating",
    "fieldtype": "Select",
    "label": "Employee Rating",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -575,7 +574,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\"|| doc.appraisal_category == \"S3\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -598,7 +597,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"S1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -616,7 +615,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"2\"|| doc.appraisal_category == \"S3\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -634,7 +633,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"2\"|| doc.appraisal_category == \"S2\"|| doc.appraisal_category == \"S3\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -657,7 +656,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"2\"|| doc.appraisal_category == \"S2\"|| doc.appraisal_category == \"S3\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -927,9 +926,9 @@
   },
   {
    "default": "no",
+   "depends_on": "eval:frappe.user.has_role('System Manager')  ",
    "fieldname": "appraiser_rating_calculated",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Appraiser Rating Calculated",
    "options": "\nno\nyes"
   },
@@ -1227,7 +1226,7 @@
    "fieldname": "skip_report",
    "fieldtype": "Small Text",
    "label": "SKIP Report ",
-   "mandatory_depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
+   "mandatory_depends_on": "//eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
    "read_only_depends_on": "eval:doc.skip_sec_calculated==\"yes\""
   },
   {
@@ -1565,7 +1564,7 @@
    "fieldtype": "Select",
    "label": "Employee Rating",
    "mandatory_depends_on": "eval:doc.appraisal_category == \"1\"",
-   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nNeeds Improvement\nPoor",
+   "options": "\nOutstanding\nExceeds Expectations\nMeets Expectations\nAcceptable\nNeeds Improvement",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
@@ -1578,7 +1577,7 @@
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-03-13 10:50:01.374618",
+ "modified": "2024-04-05 12:29:38.496185",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",
@@ -1624,6 +1623,7 @@
    "title": "Submitted"
   }
  ],
+ "track_changes": 1,
  "track_seen": 1,
  "track_views": 1
 }

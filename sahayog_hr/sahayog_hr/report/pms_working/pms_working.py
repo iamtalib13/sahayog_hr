@@ -29,6 +29,7 @@ def execute(filters=None):
             "branch": d.branch,
             "division": d.division,
             "designation": d.designation,
+            "region": d.region,
             "appraisee": get_appraisee_status(d),
             "appraiser": get_appraiser_status(d),
             "skip": get_skip_status(d)
@@ -82,6 +83,12 @@ def get_columns():
             "width": "150",
         },
         {
+            "fieldname": "region",
+            "label": "Region",
+            "fieldtype": "Data",
+            "width": "120",
+        },
+        {
             "fieldname": "appraisee",
             "label": "Appraisee Status",
             "fieldtype": "Data",
@@ -119,6 +126,7 @@ def get_performance_appraisal_data(filters):
             e.branch,
             e.division,
             e.designation,
+            e.region,  -- Include the region field here
             e.employee_id AS employee_id,
             CASE 
                 WHEN p.employee_rating_fetched = 'Fetched' THEN 'Submitted'
