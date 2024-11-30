@@ -582,15 +582,14 @@ frappe.ui.form.on("Performance Appraisal", {
               let ap_user = r.message[0].reporting_employee_user_id;
 
               let employee_name = r.message[0].employee_name;
-              console.log("Employee Name ", frm.doc.employee_name);
+              let doj=r.message[0].date_of_joining;
+              let designation =r.message[0].designation;
 
-              console.log(
-                "Appraiser :",
-                r.message[0].reporting_employee_user_id
-              );
               frm.set_value("appraiser_user_id", ap_user);
               frm.set_value("full_name", employee_name);
-              console.log(frm.doc.appraiser_user_id);
+              frm.set_value("date_of_joining",doj);
+              frm.set_value("designation",designation)
+              
             }
           },
         });
@@ -1311,17 +1310,17 @@ frappe.ui.form.on("Performance Appraisal", {
         .hide();
     } else {
       if (!frm.is_new()) {
-        if (!frappe.user.has_role("System Manager")) {
-          console.log("not allowed");
-          frappe.set_route("/app/");
-          frappe.show_alert(
-            {
-              message: __("You are not allowed to see this employee's PMS"),
-              indicator: "red",
-            },
-            5
-          );
-        }
+        // if (!frappe.user.has_role("System Manager")) {
+        //   console.log("not allowed");
+        //   frappe.set_route("/app/");
+        //   frappe.show_alert(
+        //     {
+        //       message: __("You are not allowed to see this employee's PMS"),
+        //       indicator: "red",
+        //     },
+        //     5
+        //   );
+        // }
       }
 
       // Trigger another function if conditions are not met

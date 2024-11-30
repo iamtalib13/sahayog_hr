@@ -244,7 +244,7 @@
  ],
  "fields": [
   {
-   "depends_on": "eval:frappe.user.has_role('System Manager') ",
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
    "fieldname": "employee_basic_details_tab",
    "fieldtype": "Tab Break",
    "label": "Employee Basic Details"
@@ -253,6 +253,7 @@
    "fetch_from": "owner.employee_id",
    "fieldname": "employee_id",
    "fieldtype": "Link",
+   "ignore_user_permissions": 1,
    "label": "Employee ID",
    "options": "Employee"
   },
@@ -267,6 +268,7 @@
    "fetch_from": "employee_id.designation",
    "fieldname": "designation",
    "fieldtype": "Data",
+   "in_standard_filter": 1,
    "label": "Designation",
    "read_only": 1
   },
@@ -303,12 +305,12 @@
    "read_only": 1
   },
   {
-   "default": "Final-Term Appraisal",
+   "default": "Mid-Term Appraisal",
    "fieldname": "appraisal_period",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Appraisal Period",
-   "options": "Final-Term Appraisal",
+   "options": "Mid-Term Appraisal\nFinal-Term Appraisal",
    "reqd": 1,
    "set_only_once": 1
   },
@@ -565,7 +567,7 @@
    "fieldtype": "Column Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\" || doc.appraisal_category == \"S3\"",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\" || doc.appraisal_category == \"S3\" || doc.appraisal_category == \"3\"",
    "fieldname": "personal_interpersonal_effectiveness",
    "fieldtype": "Section Break"
   },
@@ -647,7 +649,7 @@
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\"|| doc.appraisal_category == \"S3\"",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S2\"|| doc.appraisal_category == \"S3\" ||  doc.appraisal_category == \"3\"",
    "fieldname": "communication_section",
    "fieldtype": "Section Break"
   },
@@ -1325,7 +1327,7 @@
    "options": "Draft\nSubmitted\nRejected"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S3\"",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category == \"S3\" ||  doc.appraisal_category == \"3\"",
    "fieldname": "team_section",
    "fieldtype": "Section Break"
   },
@@ -1412,7 +1414,7 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"1\"",
+   "depends_on": "eval:doc.appraisal_category == \"1\" ||doc.appraisal_category == \"\"",
    "fieldname": "thougtss",
    "fieldtype": "Section Break"
   },
@@ -1422,7 +1424,7 @@
    "fieldtype": "Section Break"
   },
   {
-   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category==\"S2\" || doc.appraisal_category==\"S3\"",
+   "depends_on": "eval:doc.appraisal_category == \"2\" || doc.appraisal_category==\"S2\" || doc.appraisal_category==\"S3\" || doc.appraisal_category == \"3\"",
    "fieldname": "initiative_sections",
    "fieldtype": "Section Break"
   },
@@ -1537,7 +1539,6 @@
    "options": "<div id=\"quiz-question\" style=\"font-size: 1.5rem; margin-bottom: 0.5rem;\">\n    <div id=\"bullet-point\" style=\"display: inline-block; vertical-align: middle; padding-right: 0.5rem; color: red; font-size: 1.5rem; font-weight: bold;\">\n        *\n    </div>\n    <div id=\"question-text\" style=\"display: inline-block; font-weight: bold; vertical-align: middle; font-size: 19px;\">\nTeam Work</div>\n</div>\n<div id=\"section_team_section\" style=\"font-size: 1rem; font-style: italic; margin-bottom: 1rem; text-align: justify; text-justify: distribute-all-lines;\">\nA Cooperative attitude between those working together on a task/ series of tasks and jobs.\n</div>\n"
   },
   {
-   "fetch_from": "employee_id.higher_reporting_employee_email",
    "fieldname": "skip_employee_email",
    "fieldtype": "Data",
    "label": "Skip Employee Email"
@@ -1577,7 +1578,7 @@
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-04-05 12:29:38.496185",
+ "modified": "2024-11-28 16:29:15.779710",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",

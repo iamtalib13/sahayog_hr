@@ -1,0 +1,33 @@
+{
+ "charts": [],
+ "content": "[{\"id\":\"TCdxrLPrbw\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"PMS Dashboard\",\"col\":12}}]",
+ "creation": "2024-06-26 14:53:39.846601",
+ "custom_blocks": [
+  {
+   "custom_block_name": "PMS Dashboard",
+   "label": "PMS Dashboard"
+  }
+ ],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "chart",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "PMS",
+ "links": [],
+ "modified": "2024-11-29 13:00:55.631821",
+ "modified_by": "Administrator",
+ "module": "Sahayog Hr",
+ "name": "PMS",
+ "number_cards": [],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 23.0,
+ "shortcuts": [],
+ "title": "PMS"
+}
