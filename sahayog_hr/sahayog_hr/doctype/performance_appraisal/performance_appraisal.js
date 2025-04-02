@@ -443,6 +443,8 @@ frappe.ui.form.on("Performance Appraisal", {
     console.log("logged in id : " + session_emp_user);
 
     if (frm.is_new()) {
+      
+
       frm.set_df_property("appraisee_submit", "hidden", 1);
       // console.log("work kar raha hai");
       //let user = frappe.session.user;
@@ -466,13 +468,8 @@ frappe.ui.form.on("Performance Appraisal", {
       frm.set_value("employee_id", modifiedEmployeeId);
       console.log("ID SET");
 
-      let empid = frm.doc.employee_id;
-      frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
-        let employee_name = r.message.employee_name;
-        console.log("Employee ID : ", frm.doc.employee_id);
-        frm.set_value("full_name", employee_name);
-        console.log("Emp name :", frm.doc.full_name);
-      });
+      frm.trigger("get_emp_appraisal_details");
+      
 
       //when form NEW
     } else if (!frm.is_new()) {
@@ -899,7 +896,7 @@ frappe.ui.form.on("Performance Appraisal", {
               //*<Appraiser Save doc after giving Section A & Section B Rating>
               let session_emp_user = frappe.session.user;
               //*<Appraiser Save doc after giving Section A & Section B Rating>
-              if (session_emp_user === frm.doc.appraiser_user_id) {
+              if (session_emp_user === frm.doc.appraiser_user_id || session_emp_user === "Administrator") {
                 if (frm.doc.appraiser_rating_calculated == "no") {
                   let sec_a_message = "";
                   let sec_b_message = "";
@@ -954,8 +951,10 @@ frappe.ui.form.on("Performance Appraisal", {
                         frm.trigger("btn_calculate_app_section_b");
                         frm.trigger("btn_calculate_appraiser_overall_rating");
                         frm.set_value("appraiser_rating_calculated", "yes");
+                        frm.set_value("appraiser_rating_fetched", "Fetched");
                         frm.set_value("status", "Submitted");
                         frm.save();
+                        frm.refresh_fields();
                         frappe.show_alert(
                           "Your Rating has been Submitted for " +
                             frm.doc.full_name
@@ -987,7 +986,7 @@ frappe.ui.form.on("Performance Appraisal", {
               //*<Appraiser Save doc after giving Section A & Section B Rating>
               let session_emp_user = frappe.session.user;
               //*<Appraiser Save doc after giving Section A & Section B Rating>
-              if (session_emp_user === frm.doc.appraiser_user_id) {
+              if (session_emp_user === frm.doc.appraiser_user_id || session_emp_user === "Administrator") {
                 if (frm.doc.appraiser_rating_calculated == "no") {
                   let sec_a_message = "";
                   let sec_b_message = "";
@@ -1350,6 +1349,63 @@ frappe.ui.form.on("Performance Appraisal", {
     }
 
     //* </skip tab hide /unhide depends on employee rating status>
+  },
+
+
+  validate: function(frm) {
+    frm.trigger("get_emp_appraisal_details");
+  },
+
+  get_emp_appraisal_details(frm){
+    let empid = frm.doc.employee_id;
+    frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
+      let employee_name = r.message.employee_name;
+      console.log("Employee ID : ", frm.doc.employee_id);
+      frm.set_value("full_name", employee_name);
+      console.log("Emp name :", frm.doc.full_name);
+    });
+
+    frappe.db.get_value("Employee", empid, "reports_to").then((r)=>{
+      let empReporting=r.message.reports_to;
+      console.log("emp_reporting id:", empReporting);
+
+      frappe.db.get_value("Employee", empReporting, "employee_name").then((r)=>{
+        let reporting_employee_name = r.message ? r.message.employee_name : null;
+        console.log("reporting_employee_name:", reporting_employee_name);
+        
+      });
+    });
+
+    frappe.db.get_value("Employee", empid, "designation").then((r) => {
+      let emp_designation = r.message.designation;
+      console.log("Designation:", emp_designation);
+  
+      if (!emp_designation) {
+          frappe.msgprint({
+              title: __('Missing Data'),
+              indicator: 'red',
+              message: __('Unable to find the designation. Please contact the HR team.')
+          });
+          return;
+      }
+  
+      frappe.db.get_value("Designation", emp_designation, "appraisal_category").then((r) => {
+          let appraisal_category = r.message.appraisal_category;
+          console.log("Appraisal Category:", appraisal_category);
+  
+          if (appraisal_category) {
+              frm.set_value("appraisal_category", appraisal_category);
+          } else {
+              frappe.msgprint({
+                  title: __('Action Required'),
+                  indicator: 'red',
+                  message: __('Appraisal category not found. Please contact the HR team.')
+              });
+              frm.disable_form(); // Disable the entire form
+              frm.set_df_property('appraisee_save', 'hidden', 1);
+          }
+      });
+    });    
   },
   // show_sendToSkipLevel: function (frm) {
   //   let session_emp_user = frappe.session.user;
@@ -1897,7 +1953,7 @@ frappe.ui.form.on("Performance Appraisal", {
     var kra_pattern = /^[a-zA-Z0-9]*$/;
 
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.user_id) {
+    if (session_emp_user === frm.doc.user_id || session_emp_user === "Administrator") {
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         for (let row of frm.doc.emp_kra_table) {
           if (row.kras === "" || row.weights === "" || row.rating === "") {
@@ -1971,7 +2027,7 @@ frappe.ui.form.on("Performance Appraisal", {
   //* <Calculate Section B using button>
   calculate_section_b: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.user_id) {
+    if (session_emp_user === frm.doc.user_id || session_emp_user === "Administrator") {
       frm.clear_table("employee_section_b_table");
       //Technical Section
       if (
@@ -2262,7 +2318,7 @@ frappe.ui.form.on("Performance Appraisal", {
     let session_emp_user = frappe.session.user;
 
     //frappe.msgprint("logged in id : " + session_emp_user);
-    if (session_emp_user === frm.doc.user_id) {
+    if (session_emp_user === frm.doc.user_id || session_emp_user === "Administrator") {
       if (frm.doc.employee_rating_fetched == "Not-Fetched") {
         console.log("Calculating total ranking");
         let sectionA = parseFloat(frm.doc.overall_rating);
@@ -2339,12 +2395,39 @@ frappe.ui.form.on("Performance Appraisal", {
       }
     }
   },
-
+  fetch_kra: function (frm) {
+    return new Promise((resolve, reject) => {
+      if (frm.doc.employee_rating_fetched == "Not-Fetched") {
+        cur_frm.clear_table("appraiser_kra_table");
+        for (let row of frm.doc.emp_kra_table) {
+          frm.add_child("appraiser_kra_table", {
+            kras: row.kras,
+            //weights: row.weights,
+            appraisee_comment: row.comm,
+            rating: row.rating,
+          });
+        }
+        frm.refresh_field("appraiser_kra_table");
+        frm.set_value("employee_rating_fetched", "Fetched");
+        frm.refresh_field("employee_rating_fetched");
+        resolve(true); // Indicate success
+        console.log(resolve);
+        frappe.log_error(
+          "Resolved: Employee rating fetched successfully from function inside."
+        );
+      } else if (frm.doc.employee_rating_fetched == "Fetched") {
+        frappe.msgprint("Already fetched");
+        resolve(false); // Indicate that it was already fetched
+      } else {
+        reject(new Error("Unexpected condition")); // Handle unexpected states
+      }
+    });
+  },
   //*-----------------------------------------------------------------------------------------------*//
   //* <Send Employee Section A and B Rating to Appraiser Tab>
   send_to_appraiser: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.appraiser_user_id) {
+    if (session_emp_user === frm.doc.appraiser_user_id || session_emp_user === "Administrator") {
       frm.trigger("calculate_appraiser_rating");
     } else if (session_emp_user === frm.doc.skip_user) {
       frm.trigger("calculate_skip_rating");
@@ -2396,21 +2479,20 @@ frappe.ui.form.on("Performance Appraisal", {
         }
         //*<Calculation logic of Employee Section A>
 
-        if (frm.doc.employee_rating_fetched == "Not-Fetched") {
-          cur_frm.clear_table("appraiser_kra_table");
-          for (let row of frm.doc.emp_kra_table) {
-            let row1 = frm.add_child("appraiser_kra_table", {
-              kras: row.kras,
-              //weights: row.weights,
-              appraisee_comment: row.comm,
-              rating: row.rating,
-            });
-            frm.refresh_field("appraiser_kra_table");
-            frm.set_value("employee_rating_fetched", "Fetched");
-          }
-        } else if (frm.doc.employee_rating_fetched == "Fetched") {
-          frappe.msgprint("Already fetched");
-        }
+        frm
+          .trigger("fetch_kra")
+          .then((success) => {
+            if (success) {
+              frm.set_value("employee_rating_fetched", "Fetched");
+              frm.refresh_field("employee_rating_fetched");
+              frappe.log_error(
+                "Resolved: Employee rating fetched successfully from function Outside."
+              );
+            }
+          })
+          .catch((error) => {
+            console.error(error); // Handle errors if necessary
+          });
 
         frm.set_value("status", "Submitted");
       } else if (session_emp_user === frm.doc.appraiser_user_id) {
@@ -2501,7 +2583,7 @@ frappe.ui.form.on("Performance Appraisal", {
     let session_emp_user = frappe.session.user;
     if (session_emp_user === frm.doc.user_id) {
       frappe.throw("You don't have Enough Permission");
-    } else if (session_emp_user === frm.doc.appraiser_user_id) {
+    } else if (session_emp_user === frm.doc.appraiser_user_id || session_emp_user === "Administrator") {
       let all_ratings_given = true;
       let message = "";
       for (let row1 of frm.doc.employee_section_b_table) {
@@ -2607,7 +2689,7 @@ frappe.ui.form.on("Performance Appraisal", {
 
     //frappe.msgprint("logged in id : " + session_emp_user);
 
-    if (session_emp_user === frm.doc.appraiser_user_id) {
+    if (session_emp_user === frm.doc.appraiser_user_id || session_emp_user === "Administrator") {
       console.log("total hit");
       // Get the values of field1 and field2
       let sectionARating = parseFloat(frm.doc.appraiser_overall_rating);
@@ -2671,7 +2753,7 @@ frappe.ui.form.on("Performance Appraisal", {
   //*-----------------------------------------------------------------------------------------------*//
   btn_skip_section_a_rating: function (frm) {
     let session_emp_user = frappe.session.user;
-    if (session_emp_user === frm.doc.skip_user) {
+    if (session_emp_user === frm.doc.skip_user || session_emp_user === "Administrator") {
       //frappe.msgprint("logged in id : " + session_emp_user);
       for (let row of frm.doc.skip_kra_table) {
         if ((row.skip_rating == "") | null) {
@@ -2726,7 +2808,7 @@ frappe.ui.form.on("Performance Appraisal", {
 
     //frappe.msgprint("logged in id : " + session_emp_user);
 
-    if (session_emp_user === frm.doc.skip_user) {
+    if (session_emp_user === frm.doc.skip_user || session_emp_user === "Administrator") {
       let all_ratings_given = true;
       let message = "";
       for (let row1 of frm.doc.skip_section_b) {

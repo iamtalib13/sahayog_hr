@@ -153,6 +153,8 @@ def get_performance_appraisal_data(filters):
         WHERE 
             e.appraisal_category IS NOT NULL
                AND e.status = 'Active'
+               AND p.appraisal_period = "Final-Term Appraisal"
+               AND p.creation >= "2025-04-01"
     """
 
     try:

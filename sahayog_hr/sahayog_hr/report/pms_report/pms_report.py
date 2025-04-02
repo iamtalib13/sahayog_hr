@@ -140,6 +140,9 @@ def get_performance_appraisal_data(filters):
             sec_c_app_final_feedback
         FROM
             `tabPerformance Appraisal`
+        WHERE
+            appraisal_period = "Final-Term Appraisal" AND creation >= "2025-04-01"
+    
     """
 
     data = frappe.db.sql(sql_query, as_dict=True)

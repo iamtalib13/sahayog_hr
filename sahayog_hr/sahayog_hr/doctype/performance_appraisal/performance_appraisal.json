@@ -34,6 +34,7 @@
   "section_break_xgllc",
   "section_a_html",
   "employee_section_a",
+  "smart_kra",
   "emp_kra_table",
   "employee_section_a_btn",
   "calculate_section_a",
@@ -152,8 +153,8 @@
   "column_break_93",
   "ap_name",
   "appraiser_user_id",
-  "kra_2",
   "employee_rating_fetched",
+  "kra_2",
   "appraiser_rating_calculated",
   "appraiser_kra_table",
   "section_break_93",
@@ -196,6 +197,7 @@
   "section_break_125",
   "employee_feedback_section",
   "employee_status",
+  "skip_rating_calculated",
   "skip_confirmation_status",
   "column_break_126",
   "emp_reason",
@@ -305,14 +307,15 @@
    "read_only": 1
   },
   {
-   "default": "Mid-Term Appraisal",
+   "default": "Final-Term Appraisal",
    "fieldname": "appraisal_period",
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Appraisal Period",
-   "options": "Mid-Term Appraisal\nFinal-Term Appraisal",
-   "reqd": 1,
-   "set_only_once": 1
+   "options": "Final-Term Appraisal",
+   "read_only": 1,
+   "read_only_depends_on": "!frappe.user.has_role(\"Administrator\")",
+   "reqd": 1
   },
   {
    "default": "Today",
@@ -515,7 +518,6 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee_id.appraisal_category",
    "fieldname": "appraisal_category",
    "fieldtype": "Data",
    "label": "Appraisal Category",
@@ -686,9 +688,9 @@
   },
   {
    "default": "Not-Fetched",
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
    "fieldname": "employee_rating_fetched",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Employee rating fetched?",
    "options": "Not-Fetched\nFetched"
   },
@@ -733,7 +735,7 @@
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "calculate_appraiser_rating",
    "fieldtype": "Button",
-   "label": "Save Section A "
+   "label": "Calculate Section A"
   },
   {
    "fieldname": "section_break_93",
@@ -825,7 +827,7 @@
   {
    "fieldname": "calculate_skip_rating",
    "fieldtype": "Button",
-   "label": "Save Total Rating"
+   "label": "Calculate Total Rating"
   },
   {
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
@@ -856,7 +858,7 @@
    "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "calculate_section_b",
    "fieldtype": "Button",
-   "label": "Save Section B"
+   "label": "Calculate Section B"
   },
   {
    "fieldname": "overall_section_b_rating",
@@ -874,7 +876,7 @@
    "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "calculate_section_a",
    "fieldtype": "Button",
-   "label": "Save Section A"
+   "label": "Calculate Section A"
   },
   {
    "fieldname": "emp_reason",
@@ -938,7 +940,7 @@
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "btn_calculate_app_section_b",
    "fieldtype": "Button",
-   "label": "Save Section B"
+   "label": "Calculate Section B"
   },
   {
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
@@ -1031,7 +1033,7 @@
    "depends_on": "eval:doc.employee_rating_fetched==\"Fetched\"",
    "fieldname": "btn_calculate_appraiser_overall_rating",
    "fieldtype": "Button",
-   "label": "Save Total Rating"
+   "label": "Calculate Total Rating"
   },
   {
    "fieldname": "fhhdfhd",
@@ -1063,7 +1065,7 @@
    "depends_on": "eval:doc.status !== \"Submitted\"",
    "fieldname": "cal_emp_tot_weight_ranking",
    "fieldtype": "Button",
-   "label": "Save Total Rating"
+   "label": "Calculate Total Rating"
   },
   {
    "fieldname": "column_break_139",
@@ -1113,7 +1115,7 @@
   {
    "fieldname": "btn_skip_section_a_rating",
    "fieldtype": "Button",
-   "label": "Save Section A"
+   "label": "Calculate Section A"
   },
   {
    "fieldname": "column_break_166",
@@ -1149,7 +1151,7 @@
    "fieldtype": "Select",
    "hidden": 1,
    "label": "skip fetch",
-   "options": "Not-Fetched\nFetched"
+   "options": "\nNot-Fetched\nFetched"
   },
   {
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
@@ -1172,7 +1174,7 @@
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
    "fieldname": "btn_skip_sec_b_rating",
    "fieldtype": "Button",
-   "label": "Save Section B"
+   "label": "Calculate Section B"
   },
   {
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
@@ -1201,9 +1203,9 @@
   },
   {
    "default": "no",
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
    "fieldname": "skip_sec_calculated",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "skip_sec_calculated",
    "options": "\nno\nyes"
   },
@@ -1451,9 +1453,9 @@
   },
   {
    "default": "Not-Fetched",
+   "depends_on": "eval:frappe.user.has_role('System Manager')",
    "fieldname": "appraiser_rating_fetched",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Appraiser Rating Fetched",
    "options": "\nFetched\nNot-Fetched"
   },
@@ -1573,12 +1575,27 @@
    "fieldtype": "Small Text",
    "label": "Employee Comments",
    "read_only_depends_on": "eval:doc.employee_rating_fetched==\"Fetched\""
+  },
+  {
+   "default": "no",
+   "fieldname": "skip_rating_calculated",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Skip Rating Calculated",
+   "options": "\nno\nyes"
+  },
+  {
+   "default": "0",
+   "fieldname": "smart_kra",
+   "fieldtype": "Check",
+   "label": "Smart KRA",
+   "read_only": 1
   }
  ],
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2024-11-28 16:29:15.779710",
+ "modified": "2025-04-01 16:24:45.981907",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",

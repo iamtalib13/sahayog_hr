@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "autoname": "format:{designation}-{division}",
+ "creation": "2024-11-30 21:55:27.117452",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "designation",
+  "division",
+  "kra"
+ ],
+ "fields": [
+  {
+   "fieldname": "kra",
+   "fieldtype": "Table",
+   "label": "KRA",
+   "options": "KRA Details",
+   "reqd": 1
+  },
+  {
+   "fieldname": "designation",
+   "fieldtype": "Link",
+   "ignore_user_permissions": 1,
+   "in_list_view": 1,
+   "label": "Designation",
+   "options": "Designation",
+   "reqd": 1
+  },
+  {
+   "fieldname": "division",
+   "fieldtype": "Select",
+   "label": "Division",
+   "options": "\nMultistate\nMicrofinance\nTwo Wheeler\nSchool",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-12-13 17:08:16.613465",
+ "modified_by": "Administrator",
+ "module": "Sahayog Hr",
+ "name": "PMS Template",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Employee",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}
