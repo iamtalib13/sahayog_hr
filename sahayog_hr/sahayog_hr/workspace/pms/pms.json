@@ -1,8 +1,12 @@
 {
  "charts": [],
- "content": "[{\"id\":\"TCdxrLPrbw\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"PMS Dashboard\",\"col\":12}}]",
+ "content": "[{\"id\":\"TCdxrLPrbw\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"PMS Dashboard\",\"col\":12}},{\"id\":\"k-ulwar87T\",\"type\":\"custom_block\",\"data\":{\"custom_block_name\":\"Bell Curve Ratings\",\"col\":12}}]",
  "creation": "2024-06-26 14:53:39.846601",
  "custom_blocks": [
+  {
+   "custom_block_name": "Bell Curve Ratings",
+   "label": "Bell Curve Ratings"
+  },
   {
    "custom_block_name": "PMS Dashboard",
    "label": "PMS Dashboard"
@@ -17,7 +21,7 @@
  "is_hidden": 0,
  "label": "PMS",
  "links": [],
- "modified": "2024-11-29 13:00:55.631821",
+ "modified": "2025-04-05 12:39:13.376022",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "PMS",

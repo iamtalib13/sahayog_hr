@@ -1,5 +1,79 @@
 // Copyright (c) 2023, Talib Sheikh and contributors
 // For license information, please see license.txt
+frappe.ui.form.on('Performance Appraisal', {
+  refresh(frm) {
+      if (!frm.is_new()) {
+          return; // Agar form new nahi hai toh aage ka code run nahi hoga
+      }
+
+      // Extract Employee ID from user email
+      let user_id = frappe.session.user;
+      let emp_id = user_id.includes('@') ? user_id.split('@')[0] : user_id;
+      console.log("Extracted Employee ID:", emp_id);
+
+          // Fetch Designation and Division
+          frappe.db.get_value('Employee', { employee_id: emp_id }, ['designation', 'division'])
+              .then(res => {
+                  if (res.message) {
+                      let designation = res.message.designation;
+                      let division = res.message.division;
+                      console.log("Fetched Designation:", designation);
+                      console.log("Fetched Division:", division);
+
+                      frm.set_value("designation", designation);
+                      frm.set_value("division", division);
+
+                      if (designation && division) {
+                          // Fetch PMS Template
+                          frappe.db.get_value('PMS Template', { designation, division }, 'name')
+                              .then(res => {
+                                  if (res.message && res.message.name) {
+                                      console.log("Matched PMS Template:", res.message.name);
+
+                                      // Fetch KRA records
+                                      frappe.call({
+                                          method: 'frappe.client.get',
+                                          args: { doctype: 'PMS Template', name: res.message.name },
+                                          callback: function (response) {
+                                              const template = response.message;
+                                              if (template && Array.isArray(template.kra) && template.kra.length > 0) {
+                                                  frm.clear_table('emp_kra_table');
+
+                                                  template.kra.forEach(kra => {
+                                                      let row = frm.add_child('emp_kra_table');
+                                                      row.kras = kra.kra;
+                                                      row.weights = kra.weightage;
+                                                      row.comm = kra.description;
+                                                  });
+
+                                                  frm.refresh_field('emp_kra_table');
+
+                                                  // Make child table read-only
+                                                  frm.fields_dict.emp_kra_table.grid.update_docfield_property('kras', 'read_only', 1);
+                                                  frm.fields_dict.emp_kra_table.grid.update_docfield_property('weights', 'read_only', 1);
+                                                  frm.fields_dict.emp_kra_table.grid.grid_buttons.addClass('hidden');
+                                                  frm.get_field("emp_kra_table").grid.cannot_add_rows = true;
+                                              }
+
+                                              // Update smart_kra field
+                                              frm.set_value('smart_kra', 0);
+                                              frm.set_df_property('smart_kra', 'description', '<span style="color: red;">You cannot add KRA, your KRA is predefined by the HR Team.</span>');
+                                          }
+                                      });
+                                  } else {
+                                      console.log("No PMS Template found.");
+                                      frm.set_value('smart_kra', 1);
+                                      frm.set_df_property('smart_kra', 'description', '<span style="color: green;">You can set your KRA yourself.</span>');
+                                      frm.set_df_property('emp_kra_table', 'read_only', 0);
+                                  }
+                              })
+                              .catch(err => console.error('Error fetching PMS Template:', err));
+                      }
+                  }
+              })
+              .catch(err => console.error('Error fetching Employee details:', err));
+  }
+});
 
 frappe.ui.form.on("Performance Appraisal", {
   after_save: function (frm) {
@@ -450,6 +524,8 @@ frappe.ui.form.on("Performance Appraisal", {
       //let user = frappe.session.user;
       // Get the numeric part of the user string
       let eid = frappe.session.user.match(/\d+/)[0];
+      console.log("user:"+eid);
+
 
       // Initialize the modified employee_id
       let modifiedEmployeeId = "";
@@ -459,13 +535,16 @@ frappe.ui.form.on("Performance Appraisal", {
         modifiedEmployeeId = "ABPS" + eid;
       } else if (user.includes("MCPS")) {
         modifiedEmployeeId = "MCPS" + eid;
+      } else if (user.includes("NT")) {
+        modifiedEmployeeId = "NT" + eid;
       } else {
         // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
         modifiedEmployeeId = eid;
       }
-
+      console.log("jo id bani 1:"+modifiedEmployeeId)
       // Set the "employee_id" field with the modified value
       frm.set_value("employee_id", modifiedEmployeeId);
+
       console.log("ID SET");
 
       frm.trigger("get_emp_appraisal_details");
@@ -520,6 +599,7 @@ frappe.ui.form.on("Performance Appraisal", {
         // let user = frappe.session.user;
         // Get the numeric part of the user string
         let eid = frappe.session.user.match(/\d+/)[0];
+        console.log("user:"+eid);
 
         // Initialize the modified employee_id
         let modifiedEmployeeId = "";
@@ -529,10 +609,14 @@ frappe.ui.form.on("Performance Appraisal", {
           modifiedEmployeeId = "ABPS" + eid;
         } else if (user.includes("MCPS")) {
           modifiedEmployeeId = "MCPS" + eid;
+        } 
+          else if (user.includes("NT")) {
+          modifiedEmployeeId = "NT" + eid;
         } else {
           // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
           modifiedEmployeeId = eid;
         }
+        console.log("jo id bani 2:"+modifiedEmployeeId)
 
         // Set the "employee_id" field with the modified value
         frm.set_value("employee_id", modifiedEmployeeId);
@@ -672,7 +756,7 @@ frappe.ui.form.on("Performance Appraisal", {
         frm.set_intro(
           "<b><span class='blink-text'>Please Submit to your Appraiser -> </span></b>" +
             "<b><span class='appraiser-name'>" +
-            frm.doc.appraisers_name +
+            frm.doc.ap_name +
             "</span></b>",
           "green"
         );
@@ -1358,6 +1442,7 @@ frappe.ui.form.on("Performance Appraisal", {
 
   get_emp_appraisal_details(frm){
     let empid = frm.doc.employee_id;
+    console.log("employee id ye hai :"+empid)
     frappe.db.get_value("Employee", empid, "employee_name").then((r) => {
       let employee_name = r.message.employee_name;
       console.log("Employee ID : ", frm.doc.employee_id);
@@ -1577,10 +1662,13 @@ frappe.ui.form.on("Performance Appraisal", {
         modifiedEmployeeId = "ABPS" + eid;
       } else if (user.includes("MCPS")) {
         modifiedEmployeeId = "MCPS" + eid;
+      } else if (user.includes("NT")) {
+        modifiedEmployeeId = "NT" + eid;
       } else {
         // If neither "ABPS" nor "MCPS" is found, use the numeric part as is
         modifiedEmployeeId = eid;
       }
+      console.log("jo id bani 3:"+modifiedEmployeeId)
 
       // Set the "employee_id" field with the modified value
       frm.set_value("employee_id", modifiedEmployeeId);

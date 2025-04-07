@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_events_in_timeline": 1,
+ "allow_rename": 1,
  "autoname": "format:{full_name}-{MM}-{YYYY}",
  "creation": "2023-02-08 13:35:27.913421",
  "default_view": "List",
@@ -312,7 +313,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Appraisal Period",
-   "options": "Final-Term Appraisal",
+   "options": "Final-Term Appraisal\nMid-Term Appraisal",
    "read_only": 1,
    "read_only_depends_on": "!frappe.user.has_role(\"Administrator\")",
    "reqd": 1
@@ -746,48 +747,48 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee_id.reports_to",
    "fieldname": "appraiser_name",
    "fieldtype": "Data",
-   "label": "Appraiser Employee ID"
+   "label": "Appraiser Employee ID",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_93",
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee_id.reporting_employee",
    "fieldname": "ap_name",
    "fieldtype": "Data",
-   "label": "Appraiser Employee Name"
+   "label": "Appraiser Employee Name",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_110",
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "employee_id.higher_reporting_employee_id",
    "fieldname": "skip_reporting_employee_id",
    "fieldtype": "Data",
-   "label": "SKIP Level Employee ID"
+   "label": "SKIP Level Employee ID",
+   "read_only": 1
   },
   {
-   "fetch_from": "employee_id.higher_reporting_employee_name",
    "fieldname": "skip_reporting_employee_name",
    "fieldtype": "Data",
-   "label": "SKIP Level Employee Name"
+   "label": "SKIP Level Employee Name",
+   "read_only": 1
   },
   {
-   "fetch_from": "employee_id.higher_reporting_employee_user_id",
    "fieldname": "skip_user",
    "fieldtype": "Data",
-   "label": "SKIP User"
+   "label": "SKIP User",
+   "read_only": 1
   },
   {
-   "fetch_from": "employee_id.reporting_employee_user_id",
    "fieldname": "appraiser_user_id",
    "fieldtype": "Data",
-   "label": "Appraiser User ID"
+   "label": "Appraiser User ID",
+   "read_only": 1
   },
   {
    "depends_on": "eval:doc.skip_confirmation_status==\"SKIP Rating Required\"",
@@ -1460,10 +1461,10 @@
    "options": "\nFetched\nNot-Fetched"
   },
   {
-   "fetch_from": "employee_id.reporting_employee_email",
    "fieldname": "appraiser_email",
    "fieldtype": "Data",
-   "label": "Appraiser Employee Email"
+   "label": "Appraiser Employee Email",
+   "read_only": 1
   },
   {
    "fieldname": "html_technical_section",
@@ -1543,7 +1544,8 @@
   {
    "fieldname": "skip_employee_email",
    "fieldtype": "Data",
-   "label": "Skip Employee Email"
+   "label": "Skip Employee Email",
+   "read_only": 1
   },
   {
    "fetch_from": "employee_id.cell_number",
@@ -1595,7 +1597,7 @@
  "hide_toolbar": 1,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-04-01 16:24:45.981907",
+ "modified": "2025-04-07 12:48:39.452411",
  "modified_by": "Administrator",
  "module": "Sahayog Hr",
  "name": "Performance Appraisal",
@@ -1629,6 +1631,7 @@
    "write": 1
   }
  ],
+ "show_name_in_global_search": 1,
  "sort_field": "modified",
  "sort_order": "DESC",
  "states": [
