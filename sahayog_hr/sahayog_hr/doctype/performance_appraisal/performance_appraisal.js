@@ -442,6 +442,9 @@ frappe.ui.form.on("Performance Appraisal", {
 
     console.log("Employee Details");
     var doc = frm.doc;
+    var employee_id = frm.doc.employee_id;
+
+   
 
     // Create a custom HTML string
     var html = "";
@@ -449,6 +452,7 @@ frappe.ui.form.on("Performance Appraisal", {
       html +=
         "<div><strong>Employee ID:</strong> " + doc.employee_id + "</div>";
     }
+
     //console.log(frm.doc.full_name);
     if (doc.full_name) {
       html +=

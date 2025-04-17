@@ -4,6 +4,7 @@
 import frappe
 from frappe import _
 from frappe.model.document import Document
+from frappe.utils.password import update_password
 
 class PerformanceAppraisal(Document):
       
@@ -114,7 +115,7 @@ def get_skip_appraiser_list(skip_user):
         fields="*",  # Fetch all fields
     )
     return appraisals_list
-   
+
 import math
 import frappe
 
@@ -125,22 +126,13 @@ def get_bell_curve_employee(user_id, from_date="2025-04-01"):
 
     user_prefix = user_id.split("@")[0]
 
-    # If user is Administrator, fetch all active employees
+    # Determine total number of employees
     if frappe.session.user == "Administrator":
-        total_no_emp = frappe.db.count(
-            "Employee",
-            filters={"status": "Active"}
-        )
+        total_no_emp = frappe.db.count("Employee", filters={"status": "Active"})
     else:
-        # Only direct reportees for regular users
-        total_no_emp = frappe.db.count(
-            "Employee",
-            filters={
-                "status": "Active",
-                "reports_to": user_prefix
-            }
-        )
+        total_no_emp = frappe.db.count("Employee", filters={"status": "Active", "reports_to": user_prefix})
 
+    # Define percentage distribution
     percentages = {
         "Rank 1": 0.15,
         "Rank 2": 0.20,
@@ -149,7 +141,7 @@ def get_bell_curve_employee(user_id, from_date="2025-04-01"):
         "Rank 5": 0.05
     }
 
-    # Step 1: Calculate expected distribution with rounding logic
+    # Calculate expected distribution
     expected_distribution = {}
     remainder_list = []
     total_allocated = 0
@@ -168,32 +160,28 @@ def get_bell_curve_employee(user_id, from_date="2025-04-01"):
         rank_to_increment = remainder_list[i][0]
         expected_distribution[rank_to_increment] += 1
 
-    # Build filters for Performance Appraisal
-    filters = {}
-    if frappe.session.user != "Administrator":
-        filters["appraiser_user_id"] = user_id
+    # Fetch performance appraisal records
+    if frappe.session.user == "Administrator":
+        filters = {}
+        if from_date:
+            filters["date_of_appraisal"] = [">=", from_date]
+        records = frappe.get_all("Performance Appraisal", filters=filters, fields=["emp_app_rank"])
+    else:
+        filters1 = {"appraiser_user_id": user_id}
+        filters2 = {"skip_user": user_id}
+        if from_date:
+            filters1["date_of_appraisal"] = [">=", from_date]
+            filters2["date_of_appraisal"] = [">=", from_date]
+        records1 = frappe.get_all("Performance Appraisal", filters=filters1, fields=["emp_app_rank"])
+        records2 = frappe.get_all("Performance Appraisal", filters=filters2, fields=["emp_app_rank"])
+        records = records1 + records2
 
-    if from_date:
-        filters["date_of_appraisal"] = [">=", from_date]
-
-    records = frappe.get_all(
-        "Performance Appraisal",
-        filters=filters,
-        fields=["emp_app_rank"]
-    )
-
-    actual_distribution = {
-        "Rank 1": 0,
-        "Rank 2": 0,
-        "Rank 3": 0,
-        "Rank 4": 0,
-        "Rank 5": 0
-    }
-
+    # Calculate actual distribution
+    actual_distribution = {f"Rank {i}": 0 for i in range(1, 6)}
     for r in records:
         try:
             rank = int(r.get("emp_app_rank"))
-            if rank in [1, 2, 3, 4, 5]:
+            if 1 <= rank <= 5:
                 actual_distribution[f"Rank {rank}"] += 1
         except (ValueError, TypeError):
             continue
@@ -205,3 +193,19 @@ def get_bell_curve_employee(user_id, from_date="2025-04-01"):
         "expected_distribution": expected_distribution,
         "actual_distribution": actual_distribution
     }
+
+
+@frappe.whitelist()
+def reset_user_password(user, new_password):
+    if not frappe.has_permission("User", ptype="write"):
+        frappe.throw("You are not allowed to reset passwords.")
+
+    if not user or not new_password:
+        frappe.throw("User and new password are required.")
+
+    try:
+        update_password(user, new_password, logout_all_sessions=True)
+        return "ok"
+    except Exception as e:
+        frappe.log_error(frappe.get_traceback(), "Reset User Password Failed")
+        return {"error": str(e)}

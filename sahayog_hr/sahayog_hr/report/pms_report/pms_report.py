@@ -141,7 +141,7 @@ def get_performance_appraisal_data(filters):
         FROM
             `tabPerformance Appraisal`
         WHERE
-            appraisal_period = "Final-Term Appraisal" AND creation >= "2025-04-01"
+            appraisal_period = "Final-Term Appraisal" AND creation >= "2025-04-01" AND status="Submitted"
     
     """
 
